@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">G2T Club Signup</string>
+    <string name="hint_userid">UserID</string>
+    <string name="hint_firstName">first name</string>
+    <string name="hint_lastName">last name</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">User not saved because it is empty</string>
+    <string name="forgot_password">forgot password?</string>
+    <string name="sign_in_banner">Garden 2 Table Login</string>
+    <string name="button_sign_in">Sign In</string>
+    <string name="create_account">Don\'t have an account?</string>
+    <string name="hint_password">  password</string>
+    <string name="hint_email">e-mail</string>
+
+</resources>
