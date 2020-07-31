@@ -9,71 +9,67 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import club.gardentotable.signup.NewUserActivity.Companion.UID
-import club.gardentotable.signup.NewUserActivity.Companion.USER_FIRSTNAME
-import club.gardentotable.signup.NewUserActivity.Companion.USER_INFO
-import club.gardentotable.signup.NewUserActivity.Companion.USER_LASTNAME
+import club.gardentotable.signup.NewMemberActivity.Companion.MID
+import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_FIRSTNAME
+import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_INFO
+import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_LASTNAME
 import club.gardentotable.signup.databinding.ActivityMainBinding
-import club.gardentotable.signup.db.User
+import club.gardentotable.signup.db.Member
 import club.gardentotable.signup.ui.NewMemberSignupDialogFragment
-import club.gardentotable.signup.ui.UserListAdapter
-import club.gardentotable.signup.ui.UserViewModel
+import club.gardentotable.signup.ui.MemberListAdapter
+import club.gardentotable.signup.ui.MemberViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val newUserActivityRequestCode = 1
-    private lateinit var userViewModel: UserViewModel
+    private val newMemberActivityRequestCode = 1
+    private lateinit var memberViewModel: MemberViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val signup = NewMemberSignupDialogFragment()
-        signup.show(supportFragmentManager, "whatever")
+
+        //val signup = NewMemberSignupDialogFragment()
+       // signup.show(supportFragmentManager, "whatever")
 
 
         val activityMainBinding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
 
-        val adapter = UserListAdapter(this)
+        val adapter = MemberListAdapter(this)
         activityMainBinding.recyclerview.adapter = adapter
         activityMainBinding.recyclerview.layoutManager = LinearLayoutManager(this)
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        memberViewModel = ViewModelProvider(this).get(MemberViewModel::class.java)
 
-        userViewModel.allUsers.observe(this, Observer { users ->
-            // Update the cached copy of the users in the adapter.
-            users?.let { adapter.setUsers(it) }
+        memberViewModel.allMembers.observe(this, Observer { members ->
+            // Update the cached copy of the members in the adapter.
+            members?.let { adapter.setMembers(it) }
         })
 
 
         activityMainBinding.fab.setOnClickListener {
-            val intent = Intent(this@MainActivity, NewUserActivity::class.java)
-            startActivityForResult(intent, newUserActivityRequestCode)
+            val intent = Intent(this@MainActivity, NewMemberActivity::class.java)
+            startActivityForResult(intent, newMemberActivityRequestCode)
         }
     }
 
-    fun showSignupDialog() {
-
-
-    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
-        if (requestCode == newUserActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.getBundleExtra(USER_INFO)?.let { info ->
+        if (requestCode == newMemberActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            intentData?.getBundleExtra(MEMBER_INFO)?.let { info ->
 
-                val user = User(
-                    info.getInt(UID), info.getString(USER_FIRSTNAME),
-                    info.getString(USER_LASTNAME)
+                val member = Member(
+                    info.getInt(MID), info.getString(MEMBER_FIRSTNAME),
+                    info.getString(MEMBER_LASTNAME), "1111111111", "test", 0
                 )
-                userViewModel.insert(user)
-                Unit
+                memberViewModel.insert(member)
             }
         } else {
             Toast.makeText(

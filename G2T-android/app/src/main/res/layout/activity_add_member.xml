@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/edit_user_firstname"
+            android:id="@+id/edit_member_firstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
@@ -22,7 +22,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edit_user_lastname"
+            android:id="@+id/edit_member_lastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
@@ -35,12 +35,11 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edit_user_id"
+            android:id="@+id/edit_member_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:autofillHints="@string/hint_userid"
-            android:hint="@string/hint_userid"
+            android:hint="@string/hint_memberid"
             android:inputType="textAutoComplete"
             android:padding="@dimen/small_padding"
             android:layout_marginBottom="@dimen/big_padding"

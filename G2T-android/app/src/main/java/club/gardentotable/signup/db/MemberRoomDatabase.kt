@@ -9,29 +9,30 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
-abstract class UserRoomDatabase : RoomDatabase() {
+@Database(entities = [Member::class], version = 2, exportSchema = false)
+abstract class MemberRoomDatabase : RoomDatabase() {
 
-    abstract fun userDAO(): UserDAO
+    abstract fun memberDAO(): MemberDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: UserRoomDatabase? = null
+        private var INSTANCE: MemberRoomDatabase? = null
 
 
-        fun getDatabase(context: Context, scope: CoroutineScope): UserRoomDatabase {
+        fun getDatabase(context: Context, scope: CoroutineScope): MemberRoomDatabase {
+
 
             return INSTANCE
                 ?: synchronized(this) {
                     val instance = Room.databaseBuilder(
                         context.applicationContext,
-                        UserRoomDatabase::class.java,
-                        "user_database"
+                        MemberRoomDatabase::class.java,
+                        "member_database"
                     ).addCallback(
-                        UserDatabaseCallback(
+                        MemberDatabaseCallback(
                             scope
                         )
-                    )
+                    ).fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance
                     instance
@@ -40,29 +41,29 @@ abstract class UserRoomDatabase : RoomDatabase() {
 
         }
 
-        private class UserDatabaseCallback(private val scope: CoroutineScope) :
+        private class MemberDatabaseCallback(private val scope: CoroutineScope) :
             RoomDatabase.Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.userDAO())
+                        populateDatabase(database.memberDAO())
                     }
                 }
             }
 
-            suspend fun populateDatabase(userDao: UserDAO) {
+            suspend fun populateDatabase(memberDAO: MemberDAO) {
                 //Delete all content here
-                userDao.deleteAll()
+                memberDAO.deleteAll()
 
-                //add sample users
-                var user = User(0, "Chad", "Test")
-                userDao.insert(user)
-                user = User(1, "James", "Joyce")
-                userDao.insert(user)
+                //add sample members
+                var member = Member(0, "Chad", "Test", "1111111111", "chad@test.com", 1)
+                memberDAO.insert(member)
+                member = Member(1, "James", "Joyce","2222222222", "joyce@ulysses.com", 0 )
+                memberDAO.insert(member)
 
 
-                //TODO: add more users
+                //TODO: add more members
             }
         }
 

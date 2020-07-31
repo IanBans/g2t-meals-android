@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">G2T Club Signup</string>
-    <string name="hint_userid">UserID</string>
+    <string name="hint_memberid">MemberID</string>
     <string name="hint_firstName">first name</string>
     <string name="hint_lastName">last name</string>
     <string name="button_save">Save</string>
