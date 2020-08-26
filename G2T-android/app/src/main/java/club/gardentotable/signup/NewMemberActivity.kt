@@ -25,23 +25,21 @@ class NewMemberActivity : AppCompatActivity() {
             } else {
                 val  memberFirstname = activityAddMemberBinding.editMemberFirstname.text.toString()
                 val memberLastname = activityAddMemberBinding.editMemberLastname.text.toString()
-                val uid = activityAddMemberBinding.editMemberId.text.toString().toInt()
                 extras.putString(MEMBER_FIRSTNAME, memberFirstname)
                 extras.putString(MEMBER_LASTNAME, memberLastname)
-                extras.putInt(MID, uid)
                 extras.putString(MEMBER_PHONE, "1111111111")
-                extras.putString(MEMBER_EMAIL, memberFirstname+ "@test.com")
+                extras.putString(MEMBER_EMAIL, "$memberFirstname@test.com")
                 extras.putInt(MEMBER_SLOTS, 1)
                 replyIntent.putExtra(MEMBER_INFO, extras)
                 setResult(Activity.RESULT_OK, replyIntent)
             }
             finish()
+
         }
     }
     companion object {
         const val MEMBER_FIRSTNAME = "club.gardentotable.signup.MEMBER_FIRSTNAME"
         const val MEMBER_LASTNAME = "club.gardentotable.signup.MEMBER_LASTNAME"
-        const val MID = "club.gardentotable.signup.MID"
         const val MEMBER_INFO = "club.gardentotable.signup.MEMBER_INFO"
         const val MEMBER_PHONE = "club.gardentotable.signup.MEMBER_PHONE"
         const val MEMBER_EMAIL = "club.gardentotable.signup.MEMBER_EMAIL"

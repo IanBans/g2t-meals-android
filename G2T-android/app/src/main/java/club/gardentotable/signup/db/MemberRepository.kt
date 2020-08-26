@@ -1,16 +1,20 @@
 package club.gardentotable.signup.db
 
 import android.content.Context
-import androidx.lifecycle.LiveData
+import android.util.Log
 import com.squareup.moshi.*
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.delay
+import java.util.*
 
-class MemberRepository(private val memberDAO: MemberDAO) {
+class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: SlotDAO) {
 
-    val allMembers: LiveData<List<Member>> = memberDAO.getAllOrderedMID()
-    private val listType = Types.newParameterizedType(
-        List::class.java, Member::class.java
-    )
+    private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).add(Date::class.java, Rfc3339DateJsonAdapter()).build()
+    private val prefsAdapter : JsonAdapter<Prefs> = PrefsJsonAdapter(moshi)
+    private val slotsAdapter : JsonAdapter<Slot> = SlotsJsonAdapter(moshi)
+    private val listType = Types.newParameterizedType(List::class.java, Member::class.java)
+    private val memberAdapter : JsonAdapter<List<Member>> = moshi.adapter(listType)
     suspend fun insert(member: Member) {
         memberDAO.insert(member)
     }
@@ -27,6 +31,11 @@ class MemberRepository(private val memberDAO: MemberDAO) {
             "background@test.com", 1)
             delay(10000)
             memberDAO.insert(member1)
+
+
+
+
+
         }
 
     }

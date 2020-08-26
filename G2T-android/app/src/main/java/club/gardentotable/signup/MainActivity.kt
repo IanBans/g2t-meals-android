@@ -4,19 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import club.gardentotable.signup.NewMemberActivity.Companion.MID
 import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_FIRSTNAME
 import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_INFO
 import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_LASTNAME
-import club.gardentotable.signup.databinding.ActivityMainBinding
 import club.gardentotable.signup.db.Member
-import club.gardentotable.signup.ui.NewMemberSignupDialogFragment
-import club.gardentotable.signup.ui.MemberListAdapter
+import club.gardentotable.signup.ui.SlotListAdapter
 import club.gardentotable.signup.ui.MemberViewModel
 
 
@@ -31,14 +29,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+
         //val signup = NewMemberSignupDialogFragment()
        // signup.show(supportFragmentManager, "whatever")
 
 
-        val activityMainBinding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val activityMainBinding : club.gardentotable.signup.databinding.ActivityMainBinding= DataBindingUtil.setContentView(this, R.layout.activity_main)
 
 
-        val adapter = MemberListAdapter(this)
+        val adapter = SlotListAdapter(this)
         activityMainBinding.recyclerview.adapter = adapter
         activityMainBinding.recyclerview.layoutManager = LinearLayoutManager(this)
 
@@ -47,13 +46,15 @@ class MainActivity : AppCompatActivity() {
 
         memberViewModel.allMembers.observe(this, Observer { members ->
             // Update the cached copy of the members in the adapter.
-            members?.let { adapter.setMembers(it) }
+            members?.let { adapter.setSlots(it) }
         })
 
 
         activityMainBinding.fab.setOnClickListener {
+
             val intent = Intent(this@MainActivity, NewMemberActivity::class.java)
             startActivityForResult(intent, newMemberActivityRequestCode)
+
         }
     }
 
@@ -66,10 +67,12 @@ class MainActivity : AppCompatActivity() {
             intentData?.getBundleExtra(MEMBER_INFO)?.let { info ->
 
                 val member = Member(
-                    info.getInt(MID), info.getString(MEMBER_FIRSTNAME),
+                    null, info.getString(MEMBER_FIRSTNAME),
                     info.getString(MEMBER_LASTNAME), "1111111111", "test", 0
                 )
-                memberViewModel.insert(member)
+                memberViewModel.insert(this, member)
+
+
             }
         } else {
             Toast.makeText(
@@ -78,5 +81,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
         }
+
+        Log.i("TAG", filesDir.toString())
     }
 }

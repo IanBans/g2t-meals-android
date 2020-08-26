@@ -5,11 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Member::class], version = 2, exportSchema = false)
+
+@Database(entities = [Member::class, Slot::class], version = 5, exportSchema = false )
 abstract class MemberRoomDatabase : RoomDatabase() {
 
     abstract fun memberDAO(): MemberDAO
@@ -53,14 +57,18 @@ abstract class MemberRoomDatabase : RoomDatabase() {
             }
 
             suspend fun populateDatabase(memberDAO: MemberDAO) {
-                //Delete all content here
+                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).add(PrefsJsonAdapter).build()
+                val adapter : JsonAdapter<Prefs> = PrefsJsonAdapter(moshi)
                 memberDAO.deleteAll()
-
                 //add sample members
-                var member = Member(0, "Chad", "Test", "1111111111", "chad@test.com", 1)
+                var member = Member(null,"Robert", "Test", "1111111111", "chad@test.com", 1,
+                    adapter.toJson(Prefs(Array(1){Days.MONDAY}, Array(1){Tasks.SETUP})))
                 memberDAO.insert(member)
-                member = Member(1, "James", "Joyce","2222222222", "joyce@ulysses.com", 0 )
+                member = Member(null, "James", "Joyce","2222222222", "joyce@ulysses.com", 0)
                 memberDAO.insert(member)
+
+
+
 
 
                 //TODO: add more members

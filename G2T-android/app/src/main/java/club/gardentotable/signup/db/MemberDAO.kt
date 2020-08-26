@@ -9,8 +9,14 @@ import androidx.room.Query
 @Dao
 interface MemberDAO {
 
-    @Query("SELECT * from member_table ORDER BY memberID ASC")
+    @Query("SELECT * from member_table ORDER BY memberID DESC")
     fun getAllOrderedMID(): LiveData<List<Member>>
+
+    @Query("SELECT * from member_table")
+    fun getAllAsList(): List<Member>
+
+    @Query("SELECT LAST from member_table ORDER BY memberID ASC")
+    fun getLargestMID(): Int
 
     @Query("SELECT * from member_table ORDER BY last ASC")
     fun getAllOrderedLast(): LiveData<List<Member>>
