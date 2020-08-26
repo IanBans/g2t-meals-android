@@ -1,4 +1,4 @@
-package club.gardentotable.signup.db
+package club.gardentotable.meals.db
 
 import androidx.lifecycle.LiveData
 

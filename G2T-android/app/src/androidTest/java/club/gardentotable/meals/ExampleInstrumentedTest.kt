@@ -1,4 +1,4 @@
-package club.gardentotable.signup
+package club.gardentotable.meals
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

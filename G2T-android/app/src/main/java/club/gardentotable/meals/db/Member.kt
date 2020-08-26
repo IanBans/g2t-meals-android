@@ -1,11 +1,9 @@
-package club.gardentotable.signup.db
+package club.gardentotable.meals.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import com.squareup.moshi.ToJson
 
 @JsonClass(generateAdapter = true)
 @Entity(tableName = "member_table")

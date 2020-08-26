@@ -1,10 +1,10 @@
-package club.gardentotable.signup.ui
+package club.gardentotable.meals.ui
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import club.gardentotable.signup.R
+import club.gardentotable.meals.R
 import java.lang.IllegalStateException
 
 class NewMemberSignupDialogFragment: DialogFragment() {

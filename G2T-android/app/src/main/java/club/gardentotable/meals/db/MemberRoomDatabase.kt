@@ -1,4 +1,4 @@
-package club.gardentotable.signup.db
+package club.gardentotable.meals.db
 
 import android.content.Context
 import androidx.room.Database
@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 abstract class MemberRoomDatabase : RoomDatabase() {
 
     abstract fun memberDAO(): MemberDAO
+    abstract fun SlotDAO(): SlotDAO
 
     companion object {
         @Volatile
@@ -51,14 +52,14 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                 super.onOpen(db)
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.memberDAO())
+                        populateMembers(database.memberDAO())
                     }
                 }
             }
 
-            suspend fun populateDatabase(memberDAO: MemberDAO) {
-                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).add(PrefsJsonAdapter).build()
-                val adapter : JsonAdapter<Prefs> = PrefsJsonAdapter(moshi)
+            suspend fun populateMembers(memberDAO: MemberDAO) {
+                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                val adapter : JsonAdapter<Prefs> = moshi.adapter(Prefs::class.java)
                 memberDAO.deleteAll()
                 //add sample members
                 var member = Member(null,"Robert", "Test", "1111111111", "chad@test.com", 1,
@@ -66,10 +67,6 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                 memberDAO.insert(member)
                 member = Member(null, "James", "Joyce","2222222222", "joyce@ulysses.com", 0)
                 memberDAO.insert(member)
-
-
-
-
 
                 //TODO: add more members
             }

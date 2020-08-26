@@ -1,4 +1,4 @@
-package club.gardentotable.signup
+package club.gardentotable.meals
 
 import org.junit.Test
 

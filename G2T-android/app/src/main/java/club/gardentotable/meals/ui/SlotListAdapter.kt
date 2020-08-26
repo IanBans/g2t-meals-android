@@ -1,12 +1,12 @@
-package club.gardentotable.signup.ui
+package club.gardentotable.meals.ui
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import club.gardentotable.signup.databinding.RecyclerviewItemBinding
-import club.gardentotable.signup.db.Slot
+import club.gardentotable.meals.databinding.RecyclerviewItemBinding
+import club.gardentotable.meals.db.Slot
 
 class SlotListAdapter internal constructor(context: Context) :
     RecyclerView.Adapter<SlotListAdapter.MemberViewHolder>() {
@@ -14,13 +14,13 @@ class SlotListAdapter internal constructor(context: Context) :
     private val inflater : LayoutInflater = LayoutInflater.from(context)
     private var slots = emptyList<Slot>() //cache
 
-    inner class MemberViewHolder(binding: RecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class SlotViewHolder(binding: SlotListAdapter) : RecyclerView.ViewHolder(binding.root) {
         val firstName : TextView = binding.memberFirstname
         val taskName : TextView = binding.taskName
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberViewHolder {
-        val binding : RecyclerviewItemBinding = RecyclerviewItemBinding.inflate(inflater, parent, false)
+        val binding :  = RecyclerviewItemBinding.inflate(inflater, parent, false)
         return MemberViewHolder(binding)
     }
 

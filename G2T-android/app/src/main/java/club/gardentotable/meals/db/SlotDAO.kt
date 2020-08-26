@@ -1,4 +1,4 @@
-package club.gardentotable.signup.db
+package club.gardentotable.meals.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface SlotDAO {
 
-    @Query("SELECT * FROM member_table")
+    @Query("SELECT * FROM slot_table")
     fun getAllSlots(): LiveData<List<Slot>>
 
     @Query("DELETE FROM slot_table")

@@ -1,11 +1,11 @@
-package club.gardentotable.signup.ui
+package club.gardentotable.meals.ui
 
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import club.gardentotable.signup.db.*
+import club.gardentotable.meals.db.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -16,7 +16,7 @@ class SlotViewModel(app:Application): AndroidViewModel(app) {
         val allSlots : LiveData<List<Slot>>
 
         init {
-            val slotDAO = SlotRoomDatabase.getDatabase(app).SlotDAO()
+            val slotDAO = MemberRoomDatabase.getDatabase(app, viewModelScope).SlotDAO()
             repository = SlotRepository(slotDAO)
             allSlots = slotDAO.getAllSlots()
 

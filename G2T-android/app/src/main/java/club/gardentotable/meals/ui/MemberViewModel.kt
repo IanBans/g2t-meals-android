@@ -1,14 +1,13 @@
-package club.gardentotable.signup.ui
+package club.gardentotable.meals.ui
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import club.gardentotable.signup.db.Member
-import club.gardentotable.signup.db.MemberRepository
-import club.gardentotable.signup.db.MemberRoomDatabase
+import club.gardentotable.meals.db.Member
+import club.gardentotable.meals.db.MemberRepository
+import club.gardentotable.meals.db.MemberRoomDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -37,7 +36,5 @@ class MemberViewModel(app: Application): AndroidViewModel(app) {
 
 
     }
-
-
 
 }

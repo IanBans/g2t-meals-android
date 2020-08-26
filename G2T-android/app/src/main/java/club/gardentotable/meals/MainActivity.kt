@@ -1,4 +1,4 @@
-package club.gardentotable.signup
+package club.gardentotable.meals
 
 import android.app.Activity
 import android.content.Intent
@@ -10,12 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_FIRSTNAME
-import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_INFO
-import club.gardentotable.signup.NewMemberActivity.Companion.MEMBER_LASTNAME
-import club.gardentotable.signup.db.Member
-import club.gardentotable.signup.ui.SlotListAdapter
-import club.gardentotable.signup.ui.MemberViewModel
+import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_FIRSTNAME
+import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_INFO
+import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_LASTNAME
+import club.gardentotable.meals.db.Member
+import club.gardentotable.meals.ui.SlotListAdapter
+import club.gardentotable.meals.ui.MemberViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
        // signup.show(supportFragmentManager, "whatever")
 
 
-        val activityMainBinding : club.gardentotable.signup.databinding.ActivityMainBinding= DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val activityMainBinding : club.gardentotable.meals.databinding.ActivityMainBinding= DataBindingUtil.setContentView(this, R.layout.activity_main)
 
 
         val adapter = SlotListAdapter(this)

@@ -1,4 +1,4 @@
-package club.gardentotable.signup
+package club.gardentotable.meals
 
 import android.app.Activity
 import android.content.Intent
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.databinding.DataBindingUtil
-import club.gardentotable.signup.databinding.ActivityAddMemberBinding
+import club.gardentotable.meals.databinding.ActivityAddMemberBinding
 
 
 class NewMemberActivity : AppCompatActivity() {
