@@ -14,14 +14,18 @@ import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_FIRSTNAME
 import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_INFO
 import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_LASTNAME
 import club.gardentotable.meals.db.Member
+import club.gardentotable.meals.db.Slot
+import club.gardentotable.meals.db.Tasks
 import club.gardentotable.meals.ui.SlotListAdapter
 import club.gardentotable.meals.ui.MemberViewModel
+import club.gardentotable.meals.ui.SlotViewModel
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
     private val newMemberActivityRequestCode = 1
-    private lateinit var memberViewModel: MemberViewModel
+    private lateinit var slotViewModel: SlotViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,13 +46,10 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.recyclerview.layoutManager = LinearLayoutManager(this)
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        memberViewModel = ViewModelProvider(this).get(MemberViewModel::class.java)
-
-        memberViewModel.allMembers.observe(this, Observer { members ->
-            // Update the cached copy of the members in the adapter.
-            members?.let { adapter.setSlots(it) }
+        slotViewModel = ViewModelProvider(this).get(SlotViewModel::class.java)
+        slotViewModel.allSlots.observe(this, { slots ->
+            slots?.let { adapter.setSlots(it) }
         })
-
 
         activityMainBinding.fab.setOnClickListener {
 
@@ -66,11 +67,11 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == newMemberActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.getBundleExtra(MEMBER_INFO)?.let { info ->
 
-                val member = Member(
-                    null, info.getString(MEMBER_FIRSTNAME),
-                    info.getString(MEMBER_LASTNAME), "1111111111", "test", 0
+                val slot = Slot(
+                    null, info.getString(MEMBER_FIRSTNAME) ?: Date().toString(),
+                    info.getString(MEMBER_LASTNAME)?: "", Tasks.LEAD.toString(), "test",
                 )
-                memberViewModel.insert(this, member)
+                slotViewModel.insert(this, slot)
 
 
             }

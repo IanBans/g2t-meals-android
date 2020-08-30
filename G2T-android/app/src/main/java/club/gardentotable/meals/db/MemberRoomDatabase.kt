@@ -11,13 +11,14 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 
-@Database(entities = [Member::class, Slot::class], version = 5, exportSchema = false )
+@Database(entities = [Member::class, Slot::class], version = 8, exportSchema = false )
 abstract class MemberRoomDatabase : RoomDatabase() {
 
     abstract fun memberDAO(): MemberDAO
-    abstract fun SlotDAO(): SlotDAO
+    abstract fun slotDAO(): SlotDAO
 
     companion object {
         @Volatile
@@ -34,9 +35,7 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                         MemberRoomDatabase::class.java,
                         "member_database"
                     ).addCallback(
-                        MemberDatabaseCallback(
-                            scope
-                        )
+                        MemberDatabaseCallback(scope)
                     ).fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance
@@ -53,6 +52,7 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
                         populateMembers(database.memberDAO())
+                        populateSlots(database.slotDAO(), database.memberDAO())
                     }
                 }
             }
@@ -69,6 +69,24 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                 memberDAO.insert(member)
 
                 //TODO: add more members
+            }
+
+            suspend fun populateSlots(slotDAO: SlotDAO, memberDAO: MemberDAO) {
+                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                val dayAdapter : JsonAdapter<Days> = moshi.adapter(Days::class.java)
+                val memberAdapter : JsonAdapter<Member> = moshi.adapter(Member::class.java)
+                val taskAdapter: JsonAdapter<Tasks> = moshi.adapter(Tasks::class.java)
+                slotDAO.deleteAll()
+                //add sample slots
+                val slot1 = Slot(null,dayAdapter.toJson(Days.TUESDAY), "2020-05-06", taskAdapter.toJson(Tasks.CLEANUP), memberAdapter.toJson(memberDAO.getMatchingFirstname("Robert")))
+                slotDAO.insert(slot1)
+                var slot2 = Slot(null,dayAdapter.toJson(Days.TUESDAY), "2020-05-06", taskAdapter.toJson(Tasks.SETUP))
+                slotDAO.insert(slot2)
+                slot2 = Slot(null,dayAdapter.toJson(Days.TUESDAY), "2020-05-06", taskAdapter.toJson(Tasks.LEAD))
+                slotDAO.insert(slot2)
+                 slot2 = Slot(null,dayAdapter.toJson(Days.TUESDAY), "2020-05-06", taskAdapter.toJson(Tasks.BANANA))
+                slotDAO.insert(slot2)
+                //TODO: add more slots
             }
         }
 

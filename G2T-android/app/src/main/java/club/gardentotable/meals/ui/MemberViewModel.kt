@@ -18,9 +18,9 @@ class MemberViewModel(app: Application): AndroidViewModel(app) {
 
 
     init {
-        val membersDAO = MemberRoomDatabase.getDatabase(app, viewModelScope).memberDAO()
-        repository = MemberRepository(membersDAO)
-        allMembers = membersDAO.getAllOrderedLast()
+        val membersDB = MemberRoomDatabase.getDatabase(app, viewModelScope)
+        repository = MemberRepository(membersDB.memberDAO(), membersDB.slotDAO())
+        allMembers = membersDB.memberDAO().getAllOrderedLast()
 
     }
 
@@ -32,7 +32,6 @@ class MemberViewModel(app: Application): AndroidViewModel(app) {
             repository.exportToJSON(context)
 
         }
-
 
 
     }

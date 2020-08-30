@@ -16,7 +16,8 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
     private val slotAdapter : JsonAdapter<Slot> = moshi.adapter(Slot::class.java)
     val allSlots: LiveData<List<Slot>> = slotDAO.getAllSlots()
     private val listType = Types.newParameterizedType(List::class.java, Member::class.java)
-    private val memberAdapter : JsonAdapter<List<Member>> = moshi.adapter(listType)
+    private val memberListAdapter : JsonAdapter<List<Member>> = moshi.adapter(listType)
+    private val memberAdapter : JsonAdapter<Member> = moshi.adapter(Member::class.java)
     suspend fun insert(member: Member) {
         memberDAO.insert(member)
     }
@@ -28,22 +29,19 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
     fun exportToJSON(context: Context)  {
 
         val filename : String = context.filesDir.toString()+"/dbtest.json"
-        Log.i("TEST", "LOGGED TO FILE at "+filename)
+        Log.i("TEST", "LOGGED TO FILE at $filename")
         context.openFileOutput("dbtest.json", Context.MODE_PRIVATE).use { writer ->
-            writer.write(memberAdapter.toJson(memberDAO.getAllAsList()).toByteArray())
+            writer.write(memberListAdapter.toJson(memberDAO.getAllAsList()).toByteArray())
         }
 
 
     }
 
+
     suspend fun addMember(first:String, last:String, phone:String, email:String, prefDays: Array<Days>?, prefTasks: Array<Tasks>?) {
         memberDAO.insert(
             Member(null,first, last, phone, email, null, prefsAdapter.toJson(Prefs(prefDays, prefTasks)))
         )
-
-        suspend fun addSlot(slotID:Int, ) {
-
-        }
 
 
     }
@@ -55,6 +53,7 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
             "background@test.com", 1,prefsAdapter.toJson(prefTest))
             delay(10000)
             memberDAO.insert(member1)
+
 
         }
 

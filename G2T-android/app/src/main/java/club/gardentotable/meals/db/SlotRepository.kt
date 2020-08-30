@@ -12,6 +12,7 @@ class SlotRepository(private val slotDAO: SlotDAO) {
 
     suspend fun addSlot() {
 
+
     }
 
 }

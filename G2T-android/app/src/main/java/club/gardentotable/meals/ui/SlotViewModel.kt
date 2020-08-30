@@ -16,7 +16,7 @@ class SlotViewModel(app:Application): AndroidViewModel(app) {
         val allSlots : LiveData<List<Slot>>
 
         init {
-            val slotDAO = MemberRoomDatabase.getDatabase(app, viewModelScope).SlotDAO()
+            val slotDAO = MemberRoomDatabase.getDatabase(app, viewModelScope).slotDAO()
             repository = SlotRepository(slotDAO)
             allSlots = slotDAO.getAllSlots()
 

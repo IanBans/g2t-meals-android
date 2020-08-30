@@ -25,7 +25,7 @@ interface MemberDAO {
     fun getMatchingMID(id: Int): LiveData<List<Member>>
 
     @Query("SELECT * from member_table WHERE first LIKE :name")
-    fun getMatchingFirstname(name: String): LiveData<List<Member>>
+    fun getMatchingFirstname(name: String): Member
 
     @Query("SELECT * from member_table WHERE last LIKE :name")
     fun getMatchingLastname(name: String): LiveData<List<Member>>
