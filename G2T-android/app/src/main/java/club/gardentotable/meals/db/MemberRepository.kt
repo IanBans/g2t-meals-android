@@ -12,12 +12,9 @@ import java.util.*
 class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: SlotDAO) {
 
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).add(Date::class.java, Rfc3339DateJsonAdapter()).build()
-    private val prefsAdapter : JsonAdapter<Prefs> = moshi.adapter(Prefs::class.java)
-    private val slotAdapter : JsonAdapter<Slot> = moshi.adapter(Slot::class.java)
     val allSlots: LiveData<List<Slot>> = slotDAO.getAllSlots()
     private val listType = Types.newParameterizedType(List::class.java, Member::class.java)
     private val memberListAdapter : JsonAdapter<List<Member>> = moshi.adapter(listType)
-    private val memberAdapter : JsonAdapter<Member> = moshi.adapter(Member::class.java)
     suspend fun insert(member: Member) {
         memberDAO.insert(member)
     }
@@ -40,7 +37,7 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
 
     suspend fun addMember(first:String, last:String, phone:String, email:String, prefDays: Array<Days>?, prefTasks: Array<Tasks>?) {
         memberDAO.insert(
-            Member(null,first, last, phone, email, null, prefsAdapter.toJson(Prefs(prefDays, prefTasks)))
+            Member(null,first, last, phone, email, null, Prefs(prefDays, prefTasks))
         )
 
 
@@ -50,7 +47,7 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
 
         val prefTest = Prefs(Array<Days>(1) {Days.MONDAY},Array<Tasks>(1) {Tasks.BANANA})
         val member1 = Member(null,"Mr.","Background", "1111111111",
-            "background@test.com", 1,prefsAdapter.toJson(prefTest))
+            "background@test.com", 1,prefTest)
             delay(10000)
             memberDAO.insert(member1)
 

@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.databinding.RecyclerviewItemBinding
+import club.gardentotable.meals.db.Member
+import club.gardentotable.meals.db.MemberJsonAdapter
 import club.gardentotable.meals.db.MemberRepository
 import club.gardentotable.meals.db.Slot
+import com.squareup.moshi.JsonAdapter
 
 class SlotListAdapter internal constructor(context: Context) :
     RecyclerView.Adapter<SlotListAdapter.SlotViewHolder>() {
@@ -18,6 +21,8 @@ class SlotListAdapter internal constructor(context: Context) :
     class SlotViewHolder(binding: RecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val firstName : TextView = binding.memberFirstname
         val taskName : TextView = binding.taskName
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SlotViewHolder {
@@ -26,9 +31,10 @@ class SlotListAdapter internal constructor(context: Context) :
     }
 
     override fun onBindViewHolder(holder: SlotViewHolder, position: Int) {
+
         val current = slots[position]
-        holder.firstName.text = current.assignee
-        holder.taskName.text = current.task
+         holder.firstName.text = current.assignee?.firstName ?: ""
+         holder.taskName.text = current.task.toString()
 
 
     }
