@@ -5,10 +5,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_INFO
 import club.gardentotable.meals.databinding.ActivityMainBinding
 import club.gardentotable.meals.ui.SlotListAdapter
@@ -34,7 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = SlotListAdapter(this)
         activityMainBinding.recyclerview.adapter = adapter
-        activityMainBinding.recyclerview.layoutManager = GridLayoutManager(this, 5)
+        activityMainBinding.recyclerview.layoutManager = GridLayoutManager(this,5)
+
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         slotViewModel = ViewModelProvider(this).get(SlotViewModel::class.java)
@@ -63,4 +66,6 @@ class MainActivity : AppCompatActivity() {
 
         Log.i("TAG", filesDir.toString())
     }
+
+
 }

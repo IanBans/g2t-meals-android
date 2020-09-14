@@ -2,14 +2,15 @@ package club.gardentotable.meals.ui
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.databinding.RecyclerviewItemBinding
-import club.gardentotable.meals.db.Member
-import club.gardentotable.meals.db.MemberJsonAdapter
-import club.gardentotable.meals.db.MemberRepository
-import club.gardentotable.meals.db.Slot
+import club.gardentotable.meals.db.*
 import com.squareup.moshi.JsonAdapter
 
 class SlotListAdapter internal constructor(context: Context) :
@@ -19,6 +20,7 @@ class SlotListAdapter internal constructor(context: Context) :
     private var slots = emptyList<Slot>() //cache
 
     class SlotViewHolder(binding: RecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val container : ConstraintLayout = binding.container
         val firstName : TextView = binding.memberFirstname
         val taskName : TextView = binding.taskName
 
@@ -33,6 +35,11 @@ class SlotListAdapter internal constructor(context: Context) :
     override fun onBindViewHolder(holder: SlotViewHolder, position: Int) {
 
         val current = slots[position]
+
+        if(current.day == Days.MONDAY) {
+
+
+        }
          holder.firstName.text = current.assignee?.firstName ?: ""
          holder.taskName.text = current.task.toString()
 
