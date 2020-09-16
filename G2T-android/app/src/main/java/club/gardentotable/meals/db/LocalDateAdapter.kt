@@ -11,8 +11,8 @@ import java.time.ZoneId
 import java.util.*
 
 class LocalDateAdapter {
-    val moshi = Moshi.Builder().add(Date::class.java, Rfc3339DateJsonAdapter()).add(KotlinJsonAdapterFactory()).build()
-    val dateObjAdapter :JsonAdapter<Date> = moshi.adapter(Date::class.java)
+    private val moshi = Moshi.Builder().add(Date::class.java, Rfc3339DateJsonAdapter()).add(KotlinJsonAdapterFactory()).build()
+    private val dateObjAdapter :JsonAdapter<Date> = moshi.adapter(Date::class.java)
 
     @ToJson
     fun LocalDateToJson(date: LocalDate): String {

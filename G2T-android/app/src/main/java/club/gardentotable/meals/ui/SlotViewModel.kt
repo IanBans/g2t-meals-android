@@ -18,7 +18,7 @@ class SlotViewModel(app:Application): AndroidViewModel(app) {
         init {
             val slotDAO = MemberRoomDatabase.getDatabase(app, viewModelScope).slotDAO()
             repository = SlotRepository(slotDAO)
-            allSlots = slotDAO.getAllSlotsByDay()
+            allSlots = slotDAO.getAllSlotsByDate()
 
         }
 

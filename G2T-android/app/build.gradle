@@ -78,6 +78,7 @@ dependencies {
 
     //Moshi
     implementation "com.squareup.moshi:moshi-kotlin:$rootProject.moshiVersion"
+    implementation "com.squareup.moshi:moshi-adapters:$rootProject.moshiVersion"
 
     // Testing
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"

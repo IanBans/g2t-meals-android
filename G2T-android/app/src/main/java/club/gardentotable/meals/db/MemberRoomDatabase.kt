@@ -90,11 +90,15 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                 slotDAO.insert(slot2)
                  slot2 = Slot(null,Days.TUESDAY, LocalDate.of(2020,5,6),Tasks.BANANA)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null,Days.MONDAY, LocalDate.of(2020,5,5), Tasks.SETUP)
+                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,5), Tasks.SETUP)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null,Days.WEEKLY, LocalDate.of(2020,5,3), Tasks.INVENTORY)
+                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,5), Tasks.CLEANUP)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null,Days.THURSDAY, LocalDate.of(2020,5,8), Tasks.CLEANUP)
+                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,5), Tasks.LEAD)
+                slotDAO.insert(slot2)
+                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,3), Tasks.INVENTORY)
+                slotDAO.insert(slot2)
+                slot2 = Slot(null, Days.THURSDAY, LocalDate.of(2020,5,8), Tasks.CLEANUP)
                 slotDAO.insert(slot2)
                 //TODO: add more slots
             }

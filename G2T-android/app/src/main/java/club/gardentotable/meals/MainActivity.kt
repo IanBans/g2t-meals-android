@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = SlotListAdapter(this)
         activityMainBinding.recyclerview.adapter = adapter
-        activityMainBinding.recyclerview.layoutManager = GridLayoutManager(this,5)
+        activityMainBinding.recyclerview.layoutManager = GridLayoutManager(this,6)
 
 
         // Get a new or existing ViewModel from the ViewModelProvider.
