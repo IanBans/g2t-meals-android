@@ -58,6 +58,7 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                     scope.launch(Dispatchers.IO) {
                         populateMembers(database.memberDAO())
                         populateSlots(database.slotDAO(), database.memberDAO())
+
                     }
                 }
             }

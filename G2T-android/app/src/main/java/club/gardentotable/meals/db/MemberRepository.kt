@@ -11,24 +11,29 @@ import java.util.*
 
 class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: SlotDAO) {
 
-    private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).add(Date::class.java, Rfc3339DateJsonAdapter()).build()
-    val allSlots: LiveData<List<Slot>> = slotDAO.getAllSlots()
-    private val listType = Types.newParameterizedType(List::class.java, Member::class.java)
-    private val memberListAdapter : JsonAdapter<List<Member>> = moshi.adapter(listType)
-    suspend fun insert(member: Member) {
+    private val moshi = Moshi.Builder().add(LocalDateAdapter()).add(Date::class.java, Rfc3339DateJsonAdapter()).add(KotlinJsonAdapterFactory()).build()
+    private val allSlots: LiveData<List<Slot>> = slotDAO.getAllSlots()
+    private val memberList = Types.newParameterizedType(List::class.java, Member::class.java)
+    private val slotList = Types.newParameterizedType(List::class.java, Slot::class.java)
+    private val memberListAdapter : JsonAdapter<List<Member>> = moshi.adapter(memberList)
+    private val slotListAdapter : JsonAdapter<List<Slot>> = moshi.adapter(slotList)
+    suspend fun insertMember(member: Member) {
         memberDAO.insert(member)
     }
 
-    suspend fun insert(slot: Slot) {
-        slotDAO.insert(slot)
-    }
 
+
+    /* exports the list of members to json using moshi*/
     fun exportToJSON(context: Context)  {
 
         val filename : String = context.filesDir.toString()+"/dbtest.json"
         Log.i("TEST", "LOGGED TO FILE at $filename")
         context.openFileOutput("dbtest.json", Context.MODE_PRIVATE).use { writer ->
+            writer.write("{\n\"members_data\":".toByteArray())
             writer.write(memberListAdapter.toJson(memberDAO.getAllAsList()).toByteArray())
+            writer.write(",\n\"slots_data\":".toByteArray())
+            writer.write(slotListAdapter.toJson(slotDAO.getAllSlotsAsList()).toByteArray())
+            writer.write("\n}".toByteArray())
         }
 
 
@@ -46,12 +51,21 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
     suspend fun addMoreMembers() {
 
         val prefTest = Prefs(Array<Days>(1) {Days.MONDAY},Array<Tasks>(1) {Tasks.BANANA})
-        val member1 = Member(null,"Mr.","Background", "1111111111",
+        val member = Member(null,"Mr.","Background", "1111111111",
             "background@test.com", 1,prefTest)
             delay(10000)
-            memberDAO.insert(member1)
+            memberDAO.insert(member)
 
 
         }
+
+    suspend fun addSlot() {
+
+
+    }
+
+    suspend fun insertSlot(slot: Slot) {
+        slotDAO.insert(slot)
+    }
 
     }

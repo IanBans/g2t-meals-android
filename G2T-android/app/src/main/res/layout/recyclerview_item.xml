@@ -5,19 +5,22 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="100dp"
+            >
 
             <ImageView
                 android:id="@+id/display_photo"
                 style="@style/user"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/small_padding"
+                android:layout_marginEnd="@dimen/small_padding"
                 android:background="@drawable/shape_circle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -27,11 +30,13 @@
 
             <TextView
                 android:id="@+id/task_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
                 android:singleLine="true"
+                android:layout_marginStart="@dimen/small_padding"
+                android:layout_marginEnd="@dimen/small_padding"
                 android:text="slot name"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/member_firstname"
@@ -41,8 +46,10 @@
 
             <TextView
                 android:id="@+id/member_firstname"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_padding"
+                android:layout_marginEnd="@dimen/small_padding"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:singleLine="true"
@@ -54,7 +61,6 @@
                 app:layout_constraintTop_toTopOf="@+id/task_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </GridLayout>

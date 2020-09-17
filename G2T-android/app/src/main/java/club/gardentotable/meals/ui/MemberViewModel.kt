@@ -25,7 +25,7 @@ class MemberViewModel(app: Application): AndroidViewModel(app) {
     }
 
     fun insert(context: Context, member: Member) = viewModelScope.launch {
-        repository.insert(member)
+        repository.insertMember(member)
 
         launch(Dispatchers.IO) {
             repository.addMoreMembers()

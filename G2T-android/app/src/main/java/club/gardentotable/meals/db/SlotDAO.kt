@@ -12,6 +12,9 @@ interface SlotDAO {
     @Query("SELECT * FROM slot_table")
     fun getAllSlots(): LiveData<List<Slot>>
 
+    @Query("SELECT * FROM slot_table")
+    fun getAllSlotsAsList(): List<Slot>
+
     @Query("SELECT * FROM slot_table ORDER BY date ")
     fun getAllSlotsByDate(): LiveData<List<Slot>>
 
