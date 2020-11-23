@@ -18,6 +18,13 @@ enum class Tasks {
     },
 
     MOP {
-        override fun toString(): String { return "MOPPING" }
+        override fun toString(): String { return "Mopping" }
     },
+    SHOP1 {
+        override fun toString(): String { return "Lead Shop" }
+    },
+    SHOP2 {
+        override fun toString(): String { return "2nd Shop" }
+    }
+
 }

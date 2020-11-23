@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_INFO
 import club.gardentotable.meals.databinding.ActivityMainBinding
+import club.gardentotable.meals.databinding.RecyclerviewItemBinding
 import club.gardentotable.meals.ui.SlotListAdapter
 import club.gardentotable.meals.ui.SlotViewModel
+import club.gardentotable.meals.ui.SpacesItemDecoration
 
 const val GRID_SPAN : Int = 6
 class MainActivity : AppCompatActivity() {
@@ -28,9 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //val signup = NewMemberSignupDialogFragment()
-       // signup.show(supportFragmentManager, "whatever")
-
         //sets the layout and adapter
         val activityMainBinding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -38,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         val adapter = SlotListAdapter(this)
         activityMainBinding.recyclerview.adapter = adapter
         activityMainBinding.recyclerview.layoutManager = GridLayoutManager(this, GRID_SPAN)
+        activityMainBinding.recyclerview.addItemDecoration(SpacesItemDecoration(10))
+
 
 
         // Get a new or existing ViewModel from the ViewModelProvider.
