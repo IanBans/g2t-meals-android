@@ -5,57 +5,52 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_FIRSTNAME
 import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_INFO
-import club.gardentotable.meals.NewMemberActivity.Companion.MEMBER_LASTNAME
-import club.gardentotable.meals.db.Member
+import club.gardentotable.meals.databinding.ActivityMainBinding
+import club.gardentotable.meals.databinding.RecyclerviewItemBinding
 import club.gardentotable.meals.ui.SlotListAdapter
-import club.gardentotable.meals.ui.MemberViewModel
+import club.gardentotable.meals.ui.SlotViewModel
 
 
+const val GRID_SPAN : Int = 6
 class MainActivity : AppCompatActivity() {
 
     private val newMemberActivityRequestCode = 1
-    private lateinit var memberViewModel: MemberViewModel
+    private lateinit var slotViewModel: SlotViewModel
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
-        //val signup = NewMemberSignupDialogFragment()
-       // signup.show(supportFragmentManager, "whatever")
-
-
-        val activityMainBinding : club.gardentotable.meals.databinding.ActivityMainBinding= DataBindingUtil.setContentView(this, R.layout.activity_main)
+        //sets the layout and adapter
+        val activityMainBinding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
 
         val adapter = SlotListAdapter(this)
         activityMainBinding.recyclerview.adapter = adapter
-        activityMainBinding.recyclerview.layoutManager = LinearLayoutManager(this)
+        activityMainBinding.recyclerview.layoutManager = GridLayoutManager(this, GRID_SPAN)
+
+
+
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        memberViewModel = ViewModelProvider(this).get(MemberViewModel::class.java)
-
-        memberViewModel.allMembers.observe(this, Observer { members ->
-            // Update the cached copy of the members in the adapter.
-            members?.let { adapter.setSlots(it) }
+        slotViewModel = ViewModelProvider(this).get(SlotViewModel::class.java)
+        slotViewModel.allSlots.observe(this, { slots ->
+            slots?.let { adapter.setSlots(it, GRID_SPAN) }
         })
 
+        slotViewModel.export(this)
+        Log.i("TAG", filesDir.toString())
 
-        activityMainBinding.fab.setOnClickListener {
 
-            val intent = Intent(this@MainActivity, NewMemberActivity::class.java)
-            startActivityForResult(intent, newMemberActivityRequestCode)
-
-        }
     }
 
 
@@ -65,12 +60,6 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == newMemberActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.getBundleExtra(MEMBER_INFO)?.let { info ->
-
-                val member = Member(
-                    null, info.getString(MEMBER_FIRSTNAME),
-                    info.getString(MEMBER_LASTNAME), "1111111111", "test", 0
-                )
-                memberViewModel.insert(this, member)
 
 
             }
@@ -84,4 +73,6 @@ class MainActivity : AppCompatActivity() {
 
         Log.i("TAG", filesDir.toString())
     }
+
+
 }

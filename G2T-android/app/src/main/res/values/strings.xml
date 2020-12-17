@@ -10,5 +10,7 @@
     <string name="create_account">Don\'t have an account?</string>
     <string name="hint_password">  password</string>
     <string name="hint_email">e-mail</string>
+    <string name="page_title">Jobs</string>
+    <string name="display_date">%1$s/%2$s</string>
 
 </resources>

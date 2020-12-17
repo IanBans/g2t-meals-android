@@ -2,10 +2,10 @@ package club.gardentotable.meals.db
 
 enum class Tasks {
     SETUP {
-        override fun toString(): String { return "Setup/Cleanup" }
+        override fun toString(): String { return "Setup/Clean" }
     },
         CLEANUP {
-            override fun toString(): String { return "2nd Cleanup" }
+            override fun toString(): String { return "2nd Clean" }
         },
     LEAD {
         override fun toString(): String { return "Lead Cook" }
@@ -13,4 +13,18 @@ enum class Tasks {
     BANANA {
         override fun toString(): String { return "2nd Banana" }
     },
+    INVENTORY {
+        override fun toString(): String { return "Inventory" }
+    },
+
+    MOP {
+        override fun toString(): String { return "Mopping" }
+    },
+    SHOP1 {
+        override fun toString(): String { return "Lead Shop" }
+    },
+    SHOP2 {
+        override fun toString(): String { return "2nd Shop" }
+    }
+
 }

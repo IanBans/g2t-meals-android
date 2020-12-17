@@ -18,21 +18,20 @@ class MemberViewModel(app: Application): AndroidViewModel(app) {
 
 
     init {
-        val membersDAO = MemberRoomDatabase.getDatabase(app, viewModelScope).memberDAO()
-        repository = MemberRepository(membersDAO)
-        allMembers = membersDAO.getAllOrderedLast()
+        val membersDB = MemberRoomDatabase.getDatabase(app, viewModelScope)
+        repository = MemberRepository(membersDB.memberDAO(), membersDB.slotDAO())
+        allMembers = membersDB.memberDAO().getAllOrderedLast()
 
     }
 
     fun insert(context: Context, member: Member) = viewModelScope.launch {
-        repository.insert(member)
+        repository.insertMember(member)
 
         launch(Dispatchers.IO) {
             repository.addMoreMembers()
             repository.exportToJSON(context)
 
         }
-
 
 
     }
