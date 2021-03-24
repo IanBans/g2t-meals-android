@@ -39,8 +39,6 @@ class SlotViewModel(app:Application): AndroidViewModel(app) {
 
         launch(Dispatchers.IO) {
             repository.exportToJSON(context)
-
-
         }
 
     }

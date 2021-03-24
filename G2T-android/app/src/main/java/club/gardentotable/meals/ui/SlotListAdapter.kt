@@ -45,8 +45,8 @@ class SlotListAdapter internal constructor(private val context: Context) :
     }
 
     /*
-    *  inflate the binding and return appropriate viewHolder based on type
-    *  one for slots, one for the row labels
+    * inflate the binding and return appropriate viewHolder based on type
+    * one for slots, one for the row labels
     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : RecyclerView.ViewHolder{
         val slotBinding: RecyclerviewItemBinding =
@@ -61,7 +61,7 @@ class SlotListAdapter internal constructor(private val context: Context) :
     }
 
     /*
-    *populates the recyclerview with the slot data and controls visibility based on the ViewHolder type
+    * populates the recyclerview with the slot data and controls visibility based on the ViewHolder type
     * */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val current = slots[holder.adapterPosition]
