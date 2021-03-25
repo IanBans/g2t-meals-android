@@ -1,4 +1,4 @@
-package club.gardentotable.meals.ui
+package club.gardentotable.meals
 
 import android.content.Intent
 import android.os.Bundle
@@ -34,7 +34,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _loginBinding = FragmentLoginBinding.inflate(inflater, container, false)
         return loginBinding.root

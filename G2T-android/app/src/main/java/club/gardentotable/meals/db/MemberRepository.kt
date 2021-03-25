@@ -52,7 +52,7 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
 
         val prefTest = Prefs(Array<Days>(1) {Days.MONDAY},Array<Tasks>(1) {Tasks.BANANA})
         val member = Member(null,"Mr.","Background", "1111111111",
-            "background@test.com", 1,prefTest)
+            "background@test.com", 1, prefTest)
             delay(10000)
             memberDAO.insert(member)
 
@@ -68,4 +68,10 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
         slotDAO.insert(slot)
     }
 
+    suspend fun signupUser(slot: Slot) {
+        //this assigns "Example User" to the slot. Eventually replace with Cognito's current user
+        slotDAO.assignSlotToUser(slot.slotID!!, memberDAO.getMatchingLastname("User"))
+
     }
+
+}

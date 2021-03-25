@@ -1,10 +1,7 @@
 package club.gardentotable.meals.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface SlotDAO {
@@ -24,4 +21,7 @@ interface SlotDAO {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(slot: Slot)
+
+    @Query("UPDATE slot_table SET assignee = :member WHERE taskID = :slotID ")
+    suspend fun assignSlotToUser(slotID: Int, member: Member)
 }

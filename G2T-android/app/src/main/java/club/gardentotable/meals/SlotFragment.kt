@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.databinding.ActivityMainBinding
 import club.gardentotable.meals.databinding.FragmentSlotListBinding
+import club.gardentotable.meals.db.Slot
 import club.gardentotable.meals.ui.SlotListAdapter
 import club.gardentotable.meals.ui.SlotViewModel
 
@@ -30,6 +31,11 @@ class ScheduleFragment : Fragment() {
     private lateinit var slotViewModel: SlotViewModel
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
+
+    private fun slotClicked(slot : Slot) {
+       slotViewModel.signup(slot)
+       slotViewModel.export(requireContext())
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +58,11 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = SlotListAdapter(requireContext())
+        val adapter = SlotListAdapter(requireContext()) { clickedSlot: Slot ->
+            slotClicked(
+                clickedSlot
+            )
+        }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), GRID_SPAN)
 
@@ -61,6 +71,7 @@ class ScheduleFragment : Fragment() {
         slotViewModel.allSlots.observe(viewLifecycleOwner, { slots ->
             slots?.let { adapter.setSlots(it, GRID_SPAN) }
         })
+        slotViewModel
 
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {

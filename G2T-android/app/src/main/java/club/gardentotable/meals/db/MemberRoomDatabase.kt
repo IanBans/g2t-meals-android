@@ -32,7 +32,6 @@ abstract class MemberRoomDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context, scope: CoroutineScope): MemberRoomDatabase {
 
-
             return INSTANCE
                 ?: synchronized(this) {
                     val instance = Room.databaseBuilder(
@@ -73,7 +72,9 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                 memberDAO.insert(member)
                 member = Member(null, "James", "Joyce","2222222222", "joyce@ulysses.com", 1)
                 memberDAO.insert(member)
-                member = Member(null, "Vlad", "Putin","1112345678", "vlad@russia.ru", 1)
+                member = Member(null, "Herman", "Melville","1112345678", "herm@example.com", 1)
+                memberDAO.insert(member)
+                member = Member(null, "Example", "User","2234567890", "user@example.com", 0)
                 memberDAO.insert(member)
 
                 //TODO: add more members

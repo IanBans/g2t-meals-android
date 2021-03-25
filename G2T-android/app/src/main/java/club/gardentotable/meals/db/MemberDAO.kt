@@ -22,13 +22,13 @@ interface MemberDAO {
     fun getAllOrderedLast(): LiveData<List<Member>>
 
     @Query("SELECT * from member_table WHERE memberID = :id")
-    fun getMatchingMID(id: Int): LiveData<List<Member>>
+    fun getMatchingMID(id: Int): Member
 
     @Query("SELECT * from member_table WHERE first LIKE :name")
     fun getMatchingFirstname(name: String): Member
 
     @Query("SELECT * from member_table WHERE last LIKE :name")
-    fun getMatchingLastname(name: String): LiveData<List<Member>>
+    fun getMatchingLastname(name: String): Member
 
     @Query("DELETE FROM member_table")
     suspend fun deleteAll()

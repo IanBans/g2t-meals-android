@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ExpandableListView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ import club.gardentotable.meals.db.*
 import java.time.LocalDate
 const val LABEL_TYPE : Int = 1
 const val SLOT_TYPE : Int = 2
-class SlotListAdapter internal constructor(private val context: Context) :
+class SlotListAdapter internal constructor(private val context: Context, private val clickListener: (Slot) -> Unit ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val inflater : LayoutInflater = LayoutInflater.from(context)
     private var slots: List<Slot> = emptyList() //cache
@@ -32,7 +33,6 @@ class SlotListAdapter internal constructor(private val context: Context) :
     class LabelViewHolder(binding: RecyclerviewRowlabelBinding) : RecyclerView.ViewHolder(binding.root) {
         val day : TextView = binding.day
         val date : TextView = binding.date
-
 
     }
 
@@ -67,9 +67,9 @@ class SlotListAdapter internal constructor(private val context: Context) :
         val current = slots[holder.adapterPosition]
         lateinit var next : Slot
 
-
         if(holder.itemViewType == SLOT_TYPE) {
             holder as SlotViewHolder
+            holder.itemView.setOnClickListener{ clickListener(current) }
             if(current.day != null) {
                 holder.firstName.text = current.assignee?.firstName ?: ""
                 holder.taskName.text = current.task.toString()
@@ -86,12 +86,9 @@ class SlotListAdapter internal constructor(private val context: Context) :
             holder.date.text = context.getString(R.string.display_date, next.date.monthValue.toString(), next.date.dayOfMonth.toString())
         }
 
-
-
     }
 
     internal fun setSlots(slots : List<Slot>, gridSize: Int) {
-
         this.slots = padList(slots, gridSize)
         notifyDataSetChanged()
     }
