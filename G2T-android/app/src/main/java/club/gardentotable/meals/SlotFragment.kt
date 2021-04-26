@@ -1,6 +1,7 @@
 package club.gardentotable.meals
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,22 +9,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.setContentView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import club.gardentotable.meals.databinding.ActivityMainBinding
 import club.gardentotable.meals.databinding.FragmentSlotListBinding
 import club.gardentotable.meals.db.Slot
+import club.gardentotable.meals.ui.SlotDetailDialogFragment
 import club.gardentotable.meals.ui.SlotListAdapter
 import club.gardentotable.meals.ui.SlotViewModel
 
 const val GRID_SPAN : Int = 6
-class ScheduleFragment : Fragment() {
+class SlotFragment : Fragment() {
 
     private var _binding: FragmentSlotListBinding? = null
     private val newMemberActivityRequestCode = 1
@@ -32,11 +32,19 @@ class ScheduleFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
 
-    private fun slotClicked(slot : Slot) {
-       slotViewModel.signup(slot)
-       slotViewModel.export(requireContext())
-    }
 
+     fun onJobCancel(dialog: DialogFragment, slot : Slot) {
+        slotViewModel.drop(slot)
+        dialog.dismiss()
+    }
+     fun slotClicked(slot : Slot) {
+         if (slot.assignee == null) {
+             slotViewModel.signup(slot)
+         } else if (slot.assignee.firstName.equals("Example")) {
+             SlotDetailDialogFragment(slot).show(parentFragmentManager, null)
+
+         }
+     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,28 +67,23 @@ class ScheduleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = SlotListAdapter(requireContext()) { clickedSlot: Slot ->
-            slotClicked(
-                clickedSlot
-            )
+            slotClicked(clickedSlot)
         }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), GRID_SPAN)
-
         // Get a new or existing ViewModel from the ViewModelProvider.
         slotViewModel = ViewModelProvider(this).get(SlotViewModel::class.java)
         slotViewModel.allSlots.observe(viewLifecycleOwner, { slots ->
             slots?.let { adapter.setSlots(it, GRID_SPAN) }
         })
-        slotViewModel
 
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == newMemberActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.getBundleExtra(NewMemberActivity.MEMBER_INFO)?.let { info ->
-
-
+            intentData?.getBundleExtra(NewMemberActivity.MEMBER_INFO)?.let {
+                
             }
         } else {
             Toast.makeText(

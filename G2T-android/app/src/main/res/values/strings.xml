@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">G2T Club Meals</string>
+    <string name="app_name">G2T Club Meals Beta</string>
     <string name="hint_firstName">first name</string>
     <string name="hint_lastName">last name</string>
     <string name="button_save">Save</string>
@@ -12,6 +12,8 @@
     <string name="hint_email">e-mail</string>
     <string name="page_title">Jobs</string>
     <string name="display_date">%1$s/%2$s</string>
+    <string name="swap_job">Request Swap</string>
+    <string name="cancel_job">Cancel the Job</string>
 
 
 </resources>

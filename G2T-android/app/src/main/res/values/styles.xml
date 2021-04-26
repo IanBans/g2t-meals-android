@@ -1,11 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="@style/Theme.Design.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorGreenLight</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorGreenLight</item>
+        <item name="colorPrimaryDark">@color/colorGreenDark</item>
+        <item name="colorAccent">@color/colorGreenLight</item>
+        <item name="android:toolbarStyle">@style/ActionBarColor</item>
     </style>
 
     <!-- The default font for RecyclerView items is too small.
@@ -18,5 +19,9 @@ The margin is a simple delimiter between the words. -->
         <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
     </style>
 
+    <style name="ActionBarColor" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/colorGreenDark</item>
+        <item name="android:colorPrimary">@color/colorGreenDark</item>
+    </style>
 
 </resources>

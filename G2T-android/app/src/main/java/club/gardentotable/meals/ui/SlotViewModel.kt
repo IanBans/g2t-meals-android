@@ -29,17 +29,25 @@ class SlotViewModel(app:Application): AndroidViewModel(app) {
 
             launch(Dispatchers.IO) {
                 repository.addSlot()
+                repository.exportToJSON(context)
             }
 
         }
 
     fun signup(slot : Slot) = viewModelScope.launch {
-        if(slot.assignee == null) {
+        if(slot.assignee == null && slot.slotID != null) {
             launch(Dispatchers.IO) {
                 repository.signupUser(slot)
+
             }
         }
+    }
 
+    fun drop(slot : Slot) = viewModelScope.launch {
+            launch(Dispatchers.IO) {
+                repository.dropSlot(slot)
+
+            }
     }
 
     fun export(context: Context) = viewModelScope.launch {

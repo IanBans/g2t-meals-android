@@ -1,11 +1,13 @@
 package club.gardentotable.meals.ui
 
 import android.content.Context
+import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +28,8 @@ class SlotListAdapter internal constructor(private val context: Context, private
         val container : ConstraintLayout = binding.container
         val firstName : TextView = binding.memberFirstname
         val taskName : TextView = binding.taskName
+        val photo : ImageView = binding.displayPhoto
+
 
 
     }
@@ -53,20 +57,18 @@ class SlotListAdapter internal constructor(private val context: Context, private
             RecyclerviewItemBinding.inflate(inflater, parent, false)
         val rowLabelBinding : RecyclerviewRowlabelBinding = RecyclerviewRowlabelBinding.inflate(inflater, parent, false)
 
-
         if (viewType == SLOT_TYPE) {
             return SlotViewHolder(slotBinding)
-        }
-        return LabelViewHolder(rowLabelBinding)
+        } else
+            return LabelViewHolder(rowLabelBinding)
     }
 
-    /*
-    * populates the recyclerview with the slot data and controls visibility based on the ViewHolder type
-    * */
+     /*
+      * populates the recyclerview with the slot data and controls visibility based on the ViewType
+      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val current = slots[holder.adapterPosition]
         lateinit var next : Slot
-
         if(holder.itemViewType == SLOT_TYPE) {
             holder as SlotViewHolder
             holder.itemView.setOnClickListener{ clickListener(current) }
@@ -74,6 +76,13 @@ class SlotListAdapter internal constructor(private val context: Context, private
                 holder.firstName.text = current.assignee?.firstName ?: ""
                 holder.taskName.text = current.task.toString()
                 holder.container.visibility = View.VISIBLE
+
+                //replace with profile photo of assignee
+                    if(holder.firstName.text.equals("Example")) {
+                        holder.photo.setImageResource(R.drawable.ic_launcher_foreground)
+                    } else
+                        holder.photo.setImageDrawable(null)
+
             }
         } else if (holder.itemViewType == LABEL_TYPE) {
             next = slots[holder.adapterPosition+1]
@@ -85,7 +94,6 @@ class SlotListAdapter internal constructor(private val context: Context, private
             holder.day.text = next.day.toString()
             holder.date.text = context.getString(R.string.display_date, next.date.monthValue.toString(), next.date.dayOfMonth.toString())
         }
-
     }
 
     internal fun setSlots(slots : List<Slot>, gridSize: Int) {

@@ -4,6 +4,7 @@
     <color name="colorGreenLight">#00C4AA</color>
     <color name="colorGreenDark">#009688</color>
     <color name="colorAccent">#E2F7F5</color>
+    <color name="colorPrimaryDark">#009688</color>
     <color name="buttonLabel">#000000</color>
     <color name="jobTypeA">#FF99D1</color>
     <color name="jobTypeB">#A1FFEC</color>

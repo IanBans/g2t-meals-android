@@ -63,8 +63,6 @@ abstract class MemberRoomDatabase : RoomDatabase() {
             }
 
             suspend fun populateMembers(memberDAO: MemberDAO) {
-                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                val adapter : JsonAdapter<Prefs> = moshi.adapter(Prefs::class.java)
                 memberDAO.deleteAll()
                 //add sample members
                 var member = Member(null,"Chad", "Test", "1111111111", "chad@test.com", 1,
@@ -81,7 +79,6 @@ abstract class MemberRoomDatabase : RoomDatabase() {
             }
 
             suspend fun populateSlots(slotDAO: SlotDAO, memberDAO: MemberDAO) {
-                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
                 slotDAO.deleteAll()
                 //add sample slots
                 val slot1 = Slot(null, Days.TUESDAY, LocalDate.of(2020,5,6), Tasks.CLEANUP, memberDAO.getMatchingFirstname("Chad"))

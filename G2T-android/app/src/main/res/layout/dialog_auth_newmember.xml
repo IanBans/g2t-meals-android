@@ -9,7 +9,7 @@
     >
 
 
-    <!-- <ImageView
+     <ImageView
         android:id="@+id/logo"
         android:layout_width="276dp"
         android:layout_height="114dp"
@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_songaia_logo_white"
-        /> -->
+        />
 
     <EditText
         android:id="@+id/first_input"
@@ -109,6 +109,7 @@
         android:layout_height="44dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/colorGreenDark"
         android:text="Sign Up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

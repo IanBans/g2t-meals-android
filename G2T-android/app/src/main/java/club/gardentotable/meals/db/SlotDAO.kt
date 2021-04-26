@@ -24,4 +24,7 @@ interface SlotDAO {
 
     @Query("UPDATE slot_table SET assignee = :member WHERE taskID = :slotID ")
     suspend fun assignSlotToUser(slotID: Int, member: Member)
+
+    @Query("UPDATE slot_table SET assignee = 'null' WHERE taskID = :slotID")
+    suspend fun dropSlot(slotID: Int)
 }
