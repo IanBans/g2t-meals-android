@@ -10,12 +10,15 @@ import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.GRID_SPAN
 import club.gardentotable.meals.R
 import club.gardentotable.meals.databinding.RecyclerviewItemBinding
 import club.gardentotable.meals.databinding.RecyclerviewRowlabelBinding
 import club.gardentotable.meals.db.*
+import com.google.android.material.internal.ContextUtils.getActivity
 import java.time.LocalDate
 const val LABEL_TYPE : Int = 1
 const val SLOT_TYPE : Int = 2
@@ -75,6 +78,7 @@ class SlotListAdapter internal constructor(private val context: Context, private
             if(current.day != null) {
                 holder.firstName.text = current.assignee?.firstName ?: ""
                 holder.taskName.text = current.task.toString()
+                holder.photo.background = ContextCompat.getDrawable(context, current.task?.getBG() ?: R.drawable.shape_circle)
                 holder.container.visibility = View.VISIBLE
 
                 //replace with profile photo of assignee

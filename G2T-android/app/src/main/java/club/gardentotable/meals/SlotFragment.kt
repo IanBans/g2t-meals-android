@@ -79,7 +79,7 @@ class SlotFragment : Fragment() {
 
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
+        //super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == newMemberActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.getBundleExtra(NewMemberActivity.MEMBER_INFO)?.let {

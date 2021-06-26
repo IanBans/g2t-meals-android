@@ -2,4 +2,5 @@
 <resources>
     <dimen name="small_padding">6dp</dimen>
     <dimen name="big_padding">12dp</dimen>
+    <dimen name="task_bg_size">80dp</dimen>
 </resources>

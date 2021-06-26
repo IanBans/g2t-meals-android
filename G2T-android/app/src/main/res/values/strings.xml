@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">G2T Club Meals Beta</string>
+    <string name="app_name">G2T Club Meals Alpha</string>
     <string name="hint_firstName">first name</string>
     <string name="hint_lastName">last name</string>
     <string name="button_save">Save</string>
