@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/slots"
-            tools:context=".SlotFragment"
-            >
+         <FrameLayout
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             android:id="@+id/slotFragment">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
@@ -16,6 +15,5 @@
                 android:background="@color/colorPrimary"
                 tools:listitem="@layout/recyclerview_item"/>
 
-        </FrameLayout>
-
-</layout>
+         </FrameLayout>
+    </layout>

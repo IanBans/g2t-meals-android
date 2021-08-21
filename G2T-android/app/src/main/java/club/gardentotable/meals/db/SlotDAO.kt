@@ -1,7 +1,9 @@
 package club.gardentotable.meals.db
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
+import java.time.Month
 
 @Dao
 interface SlotDAO {
@@ -14,6 +16,9 @@ interface SlotDAO {
 
     @Query("SELECT * FROM slot_table ORDER BY date ")
     fun getAllSlotsByDate(): LiveData<List<Slot>>
+
+    @Query("SELECT * FROM slot_table WHERE assignee = :member ORDER BY date")
+     fun getAssignedSlots(member: Member): LiveData<List<Slot>>
 
     @Query("DELETE FROM slot_table")
     suspend fun deleteAll()

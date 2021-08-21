@@ -60,10 +60,10 @@ class SlotListAdapter internal constructor(private val context: Context, private
             RecyclerviewItemBinding.inflate(inflater, parent, false)
         val rowLabelBinding : RecyclerviewRowlabelBinding = RecyclerviewRowlabelBinding.inflate(inflater, parent, false)
 
-        if (viewType == SLOT_TYPE) {
-            return SlotViewHolder(slotBinding)
+        return if (viewType == SLOT_TYPE) {
+            SlotViewHolder(slotBinding)
         } else
-            return LabelViewHolder(rowLabelBinding)
+            LabelViewHolder(rowLabelBinding)
     }
 
      /*

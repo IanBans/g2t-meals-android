@@ -9,25 +9,13 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import club.gardentotable.meals.databinding.FragmentLoginBinding
 import club.gardentotable.meals.ui.NewMemberSignupDialogFragment
+import club.gardentotable.meals.ui.SlotDetailDialogFragment
 
 class LoginFragment : Fragment() {
     private var _loginBinding : FragmentLoginBinding? = null
-    val loginBinding get() = _loginBinding!!
+    private val loginBinding get() = _loginBinding!!
 
-    public override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //when the login button is clicked, launch the main activity
-        loginBinding.signInConfirm.setOnClickListener {
-            parentFragmentManager.commit {
-                this.replace<SlotFragment>(R.id.fragmentContainer)
-                this.addToBackStack(null)
-            }
 
-        }
-        loginBinding.noAccount.setOnClickListener {
-           NewMemberSignupDialogFragment().show(parentFragmentManager, null)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +25,25 @@ class LoginFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         _loginBinding = FragmentLoginBinding.inflate(inflater, container, false)
         return loginBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //when the login button is clicked, launch the slot fragment
+        loginBinding.signInConfirm.setOnClickListener {
+            parentFragmentManager.commit {
+                this.replace<SlotFragment>(R.id.fragmentContainerView)
+                this.addToBackStack("slotsView")
+            }
+
+        }
+        loginBinding.noAccount.setOnClickListener {
+            parentFragmentManager.commit {
+                this.replace<SlotOverviewFragment>(R.id.fragmentContainerView)
+                this.addToBackStack("slotDetailView")
+            }
+            //NewMemberSignupDialogFragment().show(parentFragmentManager, "signup")
+        };
     }
 
 }

@@ -11,9 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.databinding.FragmentSlotListBinding
@@ -33,19 +31,6 @@ class SlotFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
 
-     fun onJobCancel(dialog: DialogFragment, slot : Slot) {
-        slotViewModel.drop(slot)
-        dialog.dismiss()
-    }
-     fun slotClicked(slot : Slot) {
-         if (slot.assignee == null) {
-             slotViewModel.signup(slot)
-         } else if (slot.assignee.firstName.equals("Example")) {
-             SlotDetailDialogFragment(slot).show(parentFragmentManager, null)
-
-         }
-     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -56,11 +41,11 @@ class SlotFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentSlotListBinding.inflate(inflater, container, false)
-        val view = binding.root
         recyclerView = binding.recyclerview
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,8 +63,20 @@ class SlotFragment : Fragment() {
         })
 
     }
+
+    fun onJobCancel(dialog: DialogFragment, slot : Slot) {
+        slotViewModel.drop(slot)
+        dialog.dismiss()
+    }
+    private fun slotClicked(slot : Slot) {
+        if (slot.assignee == null) {
+            slotViewModel.signup(slot)
+        } else {
+            SlotDetailDialogFragment(slot, slotViewModel).show(parentFragmentManager, "detail")
+
+        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        //super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == newMemberActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.getBundleExtra(NewMemberActivity.MEMBER_INFO)?.let {

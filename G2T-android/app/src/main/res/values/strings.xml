@@ -14,6 +14,7 @@
     <string name="display_date">%1$s/%2$s</string>
     <string name="swap_job">Request Swap</string>
     <string name="cancel_job">Cancel the Job</string>
+    <string name="transfer_job">Request Transfer</string>
 
 
 </resources>

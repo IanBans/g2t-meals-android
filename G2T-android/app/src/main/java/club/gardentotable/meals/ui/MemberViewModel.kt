@@ -8,20 +8,28 @@ import androidx.lifecycle.viewModelScope
 import club.gardentotable.meals.db.Member
 import club.gardentotable.meals.db.MemberRepository
 import club.gardentotable.meals.db.MemberRoomDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import club.gardentotable.meals.db.Slot
+import kotlinx.coroutines.*
 
 class MemberViewModel(app: Application): AndroidViewModel(app) {
     private val repository: MemberRepository
 
-    val allMembers : LiveData<List<Member>>
+    private val allMembers : LiveData<List<Member>>
+    val currentUserSlots :LiveData<List<Slot>>
 
 
     init {
         val membersDB = MemberRoomDatabase.getDatabase(app, viewModelScope)
         repository = MemberRepository(membersDB.memberDAO(), membersDB.slotDAO())
-        allMembers = membersDB.memberDAO().getAllOrderedLast()
+        allMembers = runBlocking { membersDB.memberDAO().getAllOrderedLast() }
+        currentUserSlots = runBlocking { getCurrentUserSlots() }
 
+
+
+    }
+
+   private suspend fun getCurrentUserSlots(): LiveData<List<Slot>> = withContext(Dispatchers.IO) {
+      return@withContext repository.getCurrentSlotsAssigned()
     }
 
     fun insert(context: Context, member: Member) = viewModelScope.launch {

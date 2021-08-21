@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import club.gardentotable.meals.db.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class SlotViewModel(app:Application): AndroidViewModel(app) {
 
@@ -20,7 +21,7 @@ class SlotViewModel(app:Application): AndroidViewModel(app) {
             val memberDAO = db.memberDAO()
             val slotDAO = db.slotDAO()
             repository = MemberRepository(memberDAO, slotDAO)
-            allSlots = slotDAO.getAllSlotsByDate()
+            allSlots = runBlocking {  repository.getAllSlotsByDate() }
 
         }
 
@@ -44,6 +45,7 @@ class SlotViewModel(app:Application): AndroidViewModel(app) {
     }
 
     fun drop(slot : Slot) = viewModelScope.launch {
+        //add check that current user matches
             launch(Dispatchers.IO) {
                 repository.dropSlot(slot)
 

@@ -7,12 +7,12 @@ import com.squareup.moshi.*
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.delay
+import java.time.LocalDate
 import java.util.*
 
 class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: SlotDAO) {
 
     private val moshi = Moshi.Builder().add(LocalDateAdapter()).add(Date::class.java, Rfc3339DateJsonAdapter()).add(KotlinJsonAdapterFactory()).build()
-    private val allSlots: LiveData<List<Slot>> = slotDAO.getAllSlots()
     private val memberList = Types.newParameterizedType(List::class.java, Member::class.java)
     private val slotList = Types.newParameterizedType(List::class.java, Slot::class.java)
     private val memberListAdapter : JsonAdapter<List<Member>> = moshi.adapter(memberList)
@@ -20,8 +20,6 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
     suspend fun insertMember(member: Member) {
         memberDAO.insert(member)
     }
-
-
 
     /* exports the list of members to json using moshi*/
     fun exportToJSON(context: Context)  {
@@ -48,8 +46,17 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
 
     }
 
+    suspend fun getCurrentSlotsAssigned() : LiveData<List<Slot>> {
+        //TODO: replace with Cognito current user
+       return slotDAO.getAssignedSlots(memberDAO.getMatchingFirstname("Example"))
+    }
+
+    suspend fun getAllSlotsByDate() : LiveData<List<Slot>> {
+        return slotDAO.getAllSlotsByDate()
+    }
+
     suspend fun addMoreMembers() {
-        val prefTest = Prefs(Array<Days>(1) {Days.MONDAY},Array<Tasks>(1) {Tasks.BANANA})
+        val prefTest = Prefs(Array(1) {Days.MONDAY},Array(1) {Tasks.BANANA})
         val member = Member(null,"Mr.","Background", "1111111111",
             "background@test.com", 1, prefTest)
             delay(10000)
@@ -57,7 +64,7 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
 
         }
 
-    suspend fun addSlot() {
+     fun addSlot() {
 
 
     }
@@ -67,14 +74,16 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
     }
 
     suspend fun signupUser(slot: Slot) {
-        //this assigns "Example User" to the slot. Eventually replace with Cognito's current user
-        //TODO: add null check
-        slotDAO.assignSlotToUser(slot.slotID!!, memberDAO.getMatchingLastname("User"))
+        //TODO: testing, replace with Cognito current user
+        if(slot.slotID != null) {
+            slotDAO.assignSlotToUser(slot.slotID, memberDAO.getMatchingLastname("User"))
+        }
     }
 
     suspend fun dropSlot(slot: Slot) {
-        //TODO: add null check
-        slotDAO.dropSlot(slot.slotID!!)
+        if(slot.slotID != null) {
+            slotDAO.dropSlot(slot.slotID)
+        }
 
     }
 

@@ -10,7 +10,7 @@ import androidx.room.Query
 interface MemberDAO {
 
     @Query("SELECT * from member_table ORDER BY memberID DESC")
-    fun getAllOrderedMID(): LiveData<List<Member>>
+     fun getAllOrderedMID(): LiveData<List<Member>>
 
     @Query("SELECT * from member_table")
     fun getAllAsList(): List<Member>
@@ -19,20 +19,20 @@ interface MemberDAO {
     fun getLargestMID(): Int
 
     @Query("SELECT * from member_table ORDER BY last ASC")
-    fun getAllOrderedLast(): LiveData<List<Member>>
+     fun getAllOrderedLast(): LiveData<List<Member>>
 
     @Query("SELECT * from member_table WHERE memberID = :id")
     fun getMatchingMID(id: Int): Member
 
     @Query("SELECT * from member_table WHERE first LIKE :name")
-    fun getMatchingFirstname(name: String): Member
+     fun getMatchingFirstname(name: String): Member
 
     @Query("SELECT * from member_table WHERE last LIKE :name")
-    fun getMatchingLastname(name: String): Member
+     fun getMatchingLastname(name: String): Member
 
     @Query("DELETE FROM member_table")
-    suspend fun deleteAll()
+     suspend fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insert(member: Member)
+     suspend fun insert(member: Member)
 }
