@@ -15,6 +15,7 @@
     <string name="swap_job">Request Swap</string>
     <string name="cancel_job">Cancel the Job</string>
     <string name="transfer_job">Request Transfer</string>
+    <string name="slot_tracker_text">Monthly\nSlots Assigned</string>
 
 
 </resources>

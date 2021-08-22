@@ -11,6 +11,7 @@ import club.gardentotable.meals.databinding.FragmentSlotOverviewBinding
 import club.gardentotable.meals.db.Slot
 
 import club.gardentotable.meals.ui.MemberViewModel
+import club.gardentotable.meals.ui.SlotDetailDialogFragment
 import java.time.LocalDate
 
 class SlotOverviewFragment : Fragment() {
@@ -25,7 +26,6 @@ class SlotOverviewFragment : Fragment() {
         setHasOptionsMenu(true)
 
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

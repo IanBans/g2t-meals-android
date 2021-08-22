@@ -126,7 +126,6 @@ class SlotListAdapter internal constructor(private val context: Context, private
         return gridList.toList()
 
     }
-
     override fun getItemCount() = slots.size
 
 }
