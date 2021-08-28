@@ -14,8 +14,10 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import java.time.LocalDate
 import java.util.*
+import kotlin.coroutines.coroutineContext
 
 
 @Database(entities = [Member::class, Slot::class], version = 11, exportSchema = false )
@@ -28,9 +30,10 @@ abstract class MemberRoomDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: MemberRoomDatabase? = null
+        private lateinit var currentUser : Member
 
 
-        fun getDatabase(context: Context, scope: CoroutineScope): MemberRoomDatabase {
+        fun getDatabase(context: Context): MemberRoomDatabase {
 
             return INSTANCE
                 ?: synchronized(this) {
@@ -38,9 +41,8 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                         context.applicationContext,
                         MemberRoomDatabase::class.java,
                         "member_database"
-                    ).addCallback(
-                        MemberDatabaseCallback(scope)
-                    ).fallbackToDestructiveMigration()
+                    ).createFromFile(File(context.filesDir.toString()+"/signup_database.db"))
+                    .fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance
                     instance
@@ -54,10 +56,9 @@ abstract class MemberRoomDatabase : RoomDatabase() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
                 INSTANCE?.let { database ->
-                    scope.launch(Dispatchers.IO) {
+                    scope.launch {
                         populateMembers(database.memberDAO())
                         populateSlots(database.slotDAO(), database.memberDAO())
-
                     }
                 }
             }
@@ -73,8 +74,8 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                 member = Member(null, "Herman", "Melville","1112345678", "hermm@moby.com", 1)
                 memberDAO.insert(member)
                 member = Member(null, "Example", "User","2234567890", "user@example.com", 0)
+                currentUser = member
                 memberDAO.insert(member)
-
                 //TODO: add more members
             }
 

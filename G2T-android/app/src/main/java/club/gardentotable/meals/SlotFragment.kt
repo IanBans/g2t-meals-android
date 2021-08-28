@@ -11,14 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.databinding.FragmentSlotListBinding
 import club.gardentotable.meals.db.Slot
-import club.gardentotable.meals.ui.SlotDetailDialogFragment
-import club.gardentotable.meals.ui.SlotListAdapter
-import club.gardentotable.meals.ui.SlotViewModel
+import club.gardentotable.meals.ui.*
 
 const val GRID_SPAN : Int = 6
 class SlotFragment : Fragment() {
@@ -26,7 +25,8 @@ class SlotFragment : Fragment() {
     private var _binding: FragmentSlotListBinding? = null
     private val newMemberActivityRequestCode = 1
 
-    private lateinit var slotViewModel: SlotViewModel
+    private val slotViewModel: SlotViewModel by activityViewModels{
+        SlotViewModelFactory((requireActivity().application as SignupApplication).repository) }
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
 
@@ -51,13 +51,12 @@ class SlotFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         val adapter = SlotListAdapter(requireContext()) { clickedSlot: Slot ->
             slotClicked(clickedSlot)
         }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), GRID_SPAN)
-        // Get a new or existing ViewModel from the ViewModelProvider.
-        slotViewModel = ViewModelProvider(this).get(SlotViewModel::class.java)
         slotViewModel.allSlots.observe(viewLifecycleOwner, { slots ->
             slots?.let { adapter.setSlots(it, GRID_SPAN) }
         })

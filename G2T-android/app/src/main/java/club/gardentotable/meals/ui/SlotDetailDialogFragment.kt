@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.commit
 import club.gardentotable.meals.R
 import club.gardentotable.meals.SlotFragment
 import club.gardentotable.meals.databinding.DialogSlotDetailBinding
@@ -29,6 +30,7 @@ class SlotDetailDialogFragment(currentSlot: Slot, viewModel: SlotViewModel): Dia
             if(clickedSlot.assignee?.firstName == "Example") {
                 slotViewModel.drop(clickedSlot)
                 this.dismiss()
+
             }
         }
         // TODO: replace with assignee profile picture

@@ -1,5 +1,6 @@
 package club.gardentotable.meals.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.Image
 import android.util.Log
@@ -100,6 +101,7 @@ class SlotListAdapter internal constructor(private val context: Context, private
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     internal fun setSlots(slots : List<Slot>, gridSize: Int) {
         this.slots = padList(slots, gridSize)
         notifyDataSetChanged()

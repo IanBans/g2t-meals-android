@@ -7,16 +7,19 @@ import com.squareup.moshi.*
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.util.*
 
-class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: SlotDAO) {
+class SharedRepository(private val memberDAO: MemberDAO, private val slotDAO: SlotDAO) {
 
     private val moshi = Moshi.Builder().add(LocalDateAdapter()).add(Date::class.java, Rfc3339DateJsonAdapter()).add(KotlinJsonAdapterFactory()).build()
     private val memberList = Types.newParameterizedType(List::class.java, Member::class.java)
     private val slotList = Types.newParameterizedType(List::class.java, Slot::class.java)
     private val memberListAdapter : JsonAdapter<List<Member>> = moshi.adapter(memberList)
     private val slotListAdapter : JsonAdapter<List<Slot>> = moshi.adapter(slotList)
+
     suspend fun insertMember(member: Member) {
         memberDAO.insert(member)
     }
@@ -24,14 +27,17 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
     /* exports the list of members to json using moshi*/
     fun exportToJSON(context: Context)  {
 
-        val filename : String = context.filesDir.toString()+"/dbtest.json"
-        Log.i("TEST", "LOGGED TO FILE at $filename")
-        context.openFileOutput("dbtest.json", Context.MODE_PRIVATE).use { writer ->
-            writer.write("{\n\"members_data\":".toByteArray())
-            writer.write(memberListAdapter.toJson(memberDAO.getAllAsList()).toByteArray())
-            writer.write(",\n\"slots_data\":".toByteArray())
-            writer.write(slotListAdapter.toJson(slotDAO.getAllSlotsAsList()).toByteArray())
-            writer.write("\n}".toByteArray())
+        runBlocking {
+
+            val filename: String = context.filesDir.toString() + "/dbtest.json"
+            Log.i("EXPORT", "DB Exported to file at $filename")
+            context.openFileOutput("dbtest.json", Context.MODE_PRIVATE).use { writer ->
+                writer.write("{\n\"members_data\":".toByteArray())
+                writer.write(memberListAdapter.toJson(memberDAO.getAllAsList()).toByteArray())
+                writer.write(",\n\"slots_data\":".toByteArray())
+                writer.write(slotListAdapter.toJson(slotDAO.getAllSlotsAsList()).toByteArray())
+                writer.write("\n}".toByteArray())
+            }
         }
 
 
@@ -46,13 +52,20 @@ class MemberRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
 
     }
 
-    suspend fun getCurrentSlotsAssigned() : LiveData<List<Slot>> {
+    fun getCurrentUser() : Member {
+        return memberDAO.getMatchingFirstname("Example")
+    }
+    suspend fun getCurrentSlotsAssigned() : Flow<List<Slot>> {
         //TODO: replace with Cognito current user
-       return slotDAO.getAssignedSlots(memberDAO.getMatchingFirstname("Example"))
+       return slotDAO.getAssignedSlots(getCurrentUser())
     }
 
-    suspend fun getAllSlotsByDate() : LiveData<List<Slot>> {
+    suspend fun getAllSlotsByDate() : Flow<List<Slot>> {
         return slotDAO.getAllSlotsByDate()
+    }
+
+    fun getAllOrderedLast() : Flow<List<Member>> {
+        return memberDAO.getAllOrderedLast()
     }
 
     suspend fun addMoreMembers() {

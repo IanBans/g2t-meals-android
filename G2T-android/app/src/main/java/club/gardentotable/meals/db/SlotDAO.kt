@@ -1,9 +1,9 @@
 package club.gardentotable.meals.db
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
-import java.time.Month
+import kotlinx.coroutines.flow.Flow
+
 
 @Dao
 interface SlotDAO {
@@ -12,13 +12,14 @@ interface SlotDAO {
     fun getAllSlots(): LiveData<List<Slot>>
 
     @Query("SELECT * FROM slot_table")
-    fun getAllSlotsAsList(): List<Slot>
+     suspend fun getAllSlotsAsList(): List<Slot>
 
     @Query("SELECT * FROM slot_table ORDER BY date ")
-    fun getAllSlotsByDate(): LiveData<List<Slot>>
+    fun getAllSlotsByDate(): Flow<List<Slot>>
 
     @Query("SELECT * FROM slot_table WHERE assignee = :member ORDER BY date")
-     fun getAssignedSlots(member: Member): LiveData<List<Slot>>
+      fun getAssignedSlots(member: Member): Flow<List<Slot>>
+
 
     @Query("DELETE FROM slot_table")
     suspend fun deleteAll()

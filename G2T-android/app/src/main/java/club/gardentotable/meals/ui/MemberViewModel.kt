@@ -2,34 +2,28 @@ package club.gardentotable.meals.ui
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import club.gardentotable.meals.db.Member
-import club.gardentotable.meals.db.MemberRepository
+import club.gardentotable.meals.db.SharedRepository
 import club.gardentotable.meals.db.MemberRoomDatabase
 import club.gardentotable.meals.db.Slot
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 
-class MemberViewModel(app: Application): AndroidViewModel(app) {
-    private val repository: MemberRepository
-
-    private val allMembers : LiveData<List<Member>>
-    val currentUserSlots :LiveData<List<Slot>>
+class MemberViewModel(private val repository: SharedRepository): ViewModel() {
 
 
-    init {
-        val membersDB = MemberRoomDatabase.getDatabase(app, viewModelScope)
-        repository = MemberRepository(membersDB.memberDAO(), membersDB.slotDAO())
-        allMembers = runBlocking { membersDB.memberDAO().getAllOrderedLast() }
-        currentUserSlots = runBlocking { getCurrentUserSlots() }
+    val currentUserSlots : LiveData<List<Slot>> =  runBlocking {  getCurrentUserSlots().asLiveData() }
 
 
+    private suspend fun getCurrentUser(): Member = withContext(Dispatchers.IO) {
+
+        return@withContext repository.getCurrentUser()
 
     }
+   private suspend fun getCurrentUserSlots(): Flow<List<Slot>> = withContext(Dispatchers.IO) {
 
-   private suspend fun getCurrentUserSlots(): LiveData<List<Slot>> = withContext(Dispatchers.IO) {
-      return@withContext repository.getCurrentSlotsAssigned()
+       return@withContext repository.getCurrentSlotsAssigned()
     }
 
     fun insert(context: Context, member: Member) = viewModelScope.launch {
@@ -44,4 +38,22 @@ class MemberViewModel(app: Application): AndroidViewModel(app) {
 
     }
 
+    fun export(context: Context) = viewModelScope.launch {
+
+        launch(Dispatchers.IO) {
+            repository.exportToJSON(context)
+        }
+
+    }
+}
+
+class MemberViewModelFactory constructor(private val repository: SharedRepository): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return if (modelClass.isAssignableFrom(MemberViewModel::class.java)) {
+           MemberViewModel(this.repository) as T
+        } else {
+            throw IllegalArgumentException("MemberViewModel Not Found")
+        }
+
+    }
 }

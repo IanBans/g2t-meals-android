@@ -5,12 +5,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MemberDAO {
 
     @Query("SELECT * from member_table ORDER BY memberID DESC")
-     fun getAllOrderedMID(): LiveData<List<Member>>
+     fun getAllOrderedMID(): Flow<List<Member>>
 
     @Query("SELECT * from member_table")
     fun getAllAsList(): List<Member>
@@ -19,7 +20,7 @@ interface MemberDAO {
     fun getLargestMID(): Int
 
     @Query("SELECT * from member_table ORDER BY last ASC")
-     fun getAllOrderedLast(): LiveData<List<Member>>
+     fun getAllOrderedLast(): Flow<List<Member>>
 
     @Query("SELECT * from member_table WHERE memberID = :id")
     fun getMatchingMID(id: Int): Member
