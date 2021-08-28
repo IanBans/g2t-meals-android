@@ -16,8 +16,8 @@
     <string name="cancel_job">Cancel the Job</string>
     <string name="transfer_job">Request Transfer</string>
     <string name="slot_tracker_text">Monthly\nSlots Assigned</string>
-    <string name="slot_overview_text">Add Task</string>
-    <string name="overview_text_day">\n%1$s/%2$s\n%3$s</string>
+    <string name="default_overview_text">Add Task</string>
+    <string name="overview_slot_info">\n%1$s/%2$s\n%3$s</string>
 
 
 </resources>

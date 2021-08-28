@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -25,7 +24,7 @@ class SlotOverviewFragment : Fragment() {
     private val memberViewModel: MemberViewModel by activityViewModels {
         MemberViewModelFactory(((requireActivity().application as SignupApplication).repository)) }
     private lateinit var overviewButtons : List<Button>
-    private lateinit var slotNames : List<TextView>
+    private lateinit var slotTitles : List<TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +41,7 @@ class SlotOverviewFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentSlotOverviewBinding.inflate(inflater, container, false)
         overviewButtons = listOf(binding.slot1, binding.slot2, binding.slot3, binding.slot4)
-        slotNames = listOf(binding.slot1Name, binding.slot2Name, binding.slot3Name, binding.slot4Name)
+        slotTitles = listOf(binding.slot1Name, binding.slot2Name, binding.slot3Name, binding.slot4Name)
         return binding.root
     }
     private fun onUpdateView(slots: List<Slot>) {
@@ -66,7 +65,7 @@ class SlotOverviewFragment : Fragment() {
         }}
             it.text = ""
         }
-        slotNames.forEach { it.text = "" }
+        slotTitles.forEach { it.text = "" }
         binding.signupTracker.monthlySlots = 0
         if(assignedMonthlySlots.isNotEmpty()) {
 
@@ -78,8 +77,8 @@ class SlotOverviewFragment : Fragment() {
             for (i in overviewButtons.indices)
                 if (monthlySlotCount > i) {
                     val currentSlot = assignedMonthlySlots[i]
-                    overviewButtons[i].text = requireContext().getString(R.string.overview_text_day, currentSlot.date.monthValue.toString(), currentSlot.date.dayOfMonth.toString(), currentSlot.day.toString())
-                   slotNames[i].text =  currentSlot.task.toString()
+                    overviewButtons[i].text = requireContext().getString(R.string.overview_slot_info, currentSlot.date.monthValue.toString(), currentSlot.date.dayOfMonth.toString(), currentSlot.day.toString())
+                   slotTitles[i].text =  currentSlot.task.toString()
 
                     Log.i("COUNT", i.toString())
 
