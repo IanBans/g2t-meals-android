@@ -36,7 +36,7 @@ class JobCompletion @JvmOverloads  constructor(
     private val paint: Paint = Paint()
     private val grey = ContextCompat.getColor(context, R.color.colorGrey)
     private val black = ContextCompat.getColor(context, R.color.buttonLabel)
-    private val blue = ContextCompat.getColor(context, R.color.jobTypeB)
+    private val green = ContextCompat.getColor(context, R.color.jobTypeB)
     private val pink =  ContextCompat.getColor(context, R.color.jobTypeA)
     private val lightBlue =  ContextCompat.getColor(context, R.color.jobTypeC)
     private val orange =  ContextCompat.getColor(context, R.color.jobTypeD)
@@ -57,11 +57,11 @@ class JobCompletion @JvmOverloads  constructor(
     private fun defineColors() {
          colors = when(monthlySlots) {
              0 -> listOf(grey, grey, grey, grey)
-             1 -> listOf(blue, grey, grey, grey)
-             2 -> listOf(blue, orange, grey, grey)
-             3 -> listOf(blue, orange, pink, grey)
-             4 -> listOf(blue, orange, pink, lightBlue)
-             else -> listOf(blue, orange, pink, lightBlue)
+             1 -> listOf(grey, grey, lightBlue, grey)
+             2 -> listOf(grey, grey, lightBlue, green)
+             3 -> listOf(pink, grey, lightBlue, green)
+             4 -> listOf(pink, orange,lightBlue,green)
+             else -> listOf(pink, orange,lightBlue,green)
 
          }
         invalidate()
