@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorGrey">#BABFBF</color>
     <color name="colorGreenLight">#00C4AA</color>
     <color name="colorGreenDark">#009688</color>
     <color name="colorAccent">#E2F7F5</color>
+    <color name="colorPrimaryDark">#009688</color>
     <color name="buttonLabel">#000000</color>
     <color name="jobTypeA">#FF99D1</color>
     <color name="jobTypeB">#A1FFEC</color>
     <color name="jobTypeC">#B7E7FF</color>
     <color name="jobTypeD">#FFA556</color>
+    <color name="jobTypeE">#FFA557</color>
 </resources>

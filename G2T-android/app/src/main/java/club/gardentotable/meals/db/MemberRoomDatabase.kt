@@ -14,8 +14,10 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import java.time.LocalDate
 import java.util.*
+import kotlin.coroutines.coroutineContext
 
 
 @Database(entities = [Member::class, Slot::class], version = 11, exportSchema = false )
@@ -28,10 +30,10 @@ abstract class MemberRoomDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: MemberRoomDatabase? = null
+        private lateinit var currentUser : Member
 
 
-        fun getDatabase(context: Context, scope: CoroutineScope): MemberRoomDatabase {
-
+        fun getDatabase(context: Context): MemberRoomDatabase {
 
             return INSTANCE
                 ?: synchronized(this) {
@@ -39,9 +41,8 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                         context.applicationContext,
                         MemberRoomDatabase::class.java,
                         "member_database"
-                    ).addCallback(
-                        MemberDatabaseCallback(scope)
-                    ).fallbackToDestructiveMigration()
+                    ).createFromFile(File(context.filesDir.toString()+"/signup_database.db"))
+                    .fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance
                     instance
@@ -55,57 +56,55 @@ abstract class MemberRoomDatabase : RoomDatabase() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
                 INSTANCE?.let { database ->
-                    scope.launch(Dispatchers.IO) {
+                    scope.launch {
                         populateMembers(database.memberDAO())
                         populateSlots(database.slotDAO(), database.memberDAO())
-
                     }
                 }
             }
 
             suspend fun populateMembers(memberDAO: MemberDAO) {
-                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                val adapter : JsonAdapter<Prefs> = moshi.adapter(Prefs::class.java)
                 memberDAO.deleteAll()
                 //add sample members
                 var member = Member(null,"Chad", "Test", "1111111111", "chad@test.com", 1,
                     Prefs(Array(1){Days.MONDAY}, Array(1){Tasks.SETUP}))
                 memberDAO.insert(member)
-                member = Member(null, "James", "Joyce","2222222222", "joyce@ulysses.com", 1)
+                 member = Member(null, "James", "Joyce","2222222222", "joyce@ulysses.com", 1)
                 memberDAO.insert(member)
-                member = Member(null, "Vlad", "Putin","1112345678", "vlad@russia.ru", 1)
+                member = Member(null, "Herman", "Melville","1112345678", "hermm@moby.com", 1)
                 memberDAO.insert(member)
-
+                member = Member(null, "Example", "User","2234567890", "user@example.com", 0)
+                currentUser = member
+                memberDAO.insert(member)
                 //TODO: add more members
             }
 
             suspend fun populateSlots(slotDAO: SlotDAO, memberDAO: MemberDAO) {
-                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
                 slotDAO.deleteAll()
                 //add sample slots
-                val slot1 = Slot(null, Days.TUESDAY, LocalDate.of(2020,5,6), Tasks.CLEANUP, memberDAO.getMatchingFirstname("Chad"))
+                val slot1 = Slot(null, Days.TUESDAY, LocalDate.of(2020,6,1), Tasks.CLEANUP, memberDAO.getMatchingFirstname("Chad"))
                 slotDAO.insert(slot1)
-                var slot2 = Slot(null,Days.TUESDAY, LocalDate.of(2020,5,6), Tasks.SETUP, memberDAO.getMatchingFirstname("James"))
+                var slot2 = Slot(null,Days.TUESDAY, LocalDate.of(2020,6,1), Tasks.SETUP, memberDAO.getMatchingFirstname("James"))
                 slotDAO.insert(slot2)
-                slot2 = Slot(null,Days.TUESDAY, LocalDate.of(2020,5,6), Tasks.LEAD, memberDAO.getMatchingFirstname("Vlad"))
+                slot2 = Slot(null,Days.TUESDAY, LocalDate.of(2020,6,1), Tasks.LEAD, memberDAO.getMatchingFirstname("Herman"))
                 slotDAO.insert(slot2)
-                 slot2 = Slot(null,Days.TUESDAY, LocalDate.of(2020,5,6),Tasks.BANANA)
+                 slot2 = Slot(null,Days.TUESDAY, LocalDate.of(2020,6,1),Tasks.BANANA)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,5), Tasks.SETUP)
+                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,31), Tasks.SETUP)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,5), Tasks.CLEANUP)
+                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,31), Tasks.CLEANUP)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,5), Tasks.LEAD)
+                slot2 = Slot(null, Days.MONDAY, LocalDate.of(2020,5,31), Tasks.LEAD)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,3), Tasks.MOP)
+                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,29), Tasks.MOP)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,3), Tasks.INVENTORY)
+                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,29), Tasks.INVENTORY)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,3), Tasks.SHOP1)
+                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,29), Tasks.SHOP1)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,3), Tasks.SHOP2)
+                slot2 = Slot(null, Days.WEEKLY, LocalDate.of(2020,5,29), Tasks.SHOP2)
                 slotDAO.insert(slot2)
-                slot2 = Slot(null, Days.THURSDAY, LocalDate.of(2020,5,8), Tasks.CLEANUP)
+                slot2 = Slot(null, Days.THURSDAY, LocalDate.of(2020,6,3), Tasks.CLEANUP)
                 slotDAO.insert(slot2)
                 slot2 = Slot(null, Days.THURSDAY, LocalDate.of(2020,5,8), Tasks.SETUP)
                 slotDAO.insert(slot2)

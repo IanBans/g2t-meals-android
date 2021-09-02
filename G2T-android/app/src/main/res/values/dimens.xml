@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="small_padding">6dp</dimen>
-    <dimen name="big_padding">16dp</dimen>
+    <dimen name="big_padding">12dp</dimen>
+    <dimen name="task_bg_size">80dp</dimen>
+    <dimen name="rounding_size">20dp</dimen>
+    <dimen name="next_task_size">85dp</dimen>
 </resources>

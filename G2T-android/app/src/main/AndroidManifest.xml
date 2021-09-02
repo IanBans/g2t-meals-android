@@ -2,16 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="club.gardentotable.meals">
 
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
   <application
+      android:name=".SignupApplication"
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
-      android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-    <activity android:name="club.gardentotable.meals.LoginActivity">
+      android:theme="@style/AppTheme">
+    <activity android:name="club.gardentotable.meals.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -19,9 +19,6 @@
       </intent-filter>
     </activity>
     <activity android:name="club.gardentotable.meals.NewMemberActivity">
-
-    </activity>
-    <activity android:name="club.gardentotable.meals.MainActivity">
 
     </activity>
   </application>
