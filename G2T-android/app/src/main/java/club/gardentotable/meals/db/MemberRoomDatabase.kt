@@ -1,23 +1,14 @@
 package club.gardentotable.meals.db
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.time.LocalDate
-import java.util.*
-import kotlin.coroutines.coroutineContext
 
 
 @Database(entities = [Member::class, Slot::class], version = 11, exportSchema = false )
@@ -41,7 +32,7 @@ abstract class MemberRoomDatabase : RoomDatabase() {
                         context.applicationContext,
                         MemberRoomDatabase::class.java,
                         "member_database"
-                    ).createFromFile(File(context.filesDir.toString()+"/signup_database.db"))
+                    ).createFromAsset("databases/member_database")
                     .fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance
