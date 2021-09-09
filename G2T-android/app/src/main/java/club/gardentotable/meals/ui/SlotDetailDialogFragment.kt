@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
 import club.gardentotable.meals.R
@@ -25,12 +26,13 @@ class SlotDetailDialogFragment(currentSlot: Slot, viewModel: SlotViewModel): Dia
        val binding : DialogSlotDetailBinding = DialogSlotDetailBinding.inflate(LayoutInflater.from(context))
        binding.jobTitle.text = clickedSlot.task.toString()
        binding.jobDate.text = requireContext().getString(R.string.display_date, clickedSlot.date.monthValue.toString(), clickedSlot.date.dayOfMonth.toString())
+        if(clickedSlot.assignee?.firstName != "Example")
+            binding.jobCancelButton.visibility = View.INVISIBLE;
         binding.jobCancelButton.setOnClickListener {
             //TODO: replace check with current user
             if(clickedSlot.assignee?.firstName == "Example") {
                 slotViewModel.drop(clickedSlot)
                 this.dismiss()
-
             }
         }
         // TODO: replace with assignee profile picture

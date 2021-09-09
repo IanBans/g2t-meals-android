@@ -63,7 +63,7 @@ class SlotOverviewFragment : Fragment() {
             this.replace<SlotFragment>(R.id.fragmentContainerView)
             this.addToBackStack("slotsView")
         }}
-            it.text = ""
+            it.text = requireContext().getText(R.string.default_overview_text)
         }
         slotTitles.forEach { it.text = "" }
         binding.signupTracker.monthlySlots = 0

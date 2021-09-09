@@ -24,6 +24,11 @@ class SlotViewModel(private val repository: SharedRepository): ViewModel(){
 
         }
 
+    fun addToDB() = viewModelScope.launch {
+            repository.addToDB()
+
+    }
+
     private suspend fun getAllSlotsByDate(): Flow<List<Slot>> = withContext(Dispatchers.IO){
         return@withContext repository.getAllSlotsByDate()
 

@@ -13,11 +13,16 @@
     <string name="page_title">Jobs</string>
     <string name="display_date">%1$s/%2$s</string>
     <string name="swap_job">Request Swap</string>
-    <string name="cancel_job">Cancel the Job</string>
+    <string name="cancel_job">Cancel Job</string>
     <string name="transfer_job">Request Transfer</string>
     <string name="slot_tracker_text">Monthly\nSlots Assigned</string>
-    <string name="default_overview_text">Add Task</string>
+    <string name="default_overview_text">Add Slot</string>
     <string name="overview_slot_info">\n%1$s/%2$s\n%3$s</string>
+    <string name="title_activity_nav_drawer">NavDrawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
 
+    <string name="menu_overview">Overview</string>
 
 </resources>

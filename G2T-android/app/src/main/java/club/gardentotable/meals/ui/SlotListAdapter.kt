@@ -13,6 +13,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat.getDrawable
+import androidx.core.view.marginBottom
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.GRID_SPAN
 import club.gardentotable.meals.R
@@ -76,11 +78,13 @@ class SlotListAdapter internal constructor(private val context: Context, private
         if(holder.itemViewType == SLOT_TYPE) {
             holder as SlotViewHolder
             holder.itemView.setOnClickListener{ clickListener(current) }
+            
             if(current.day != null) {
                 holder.firstName.text = current.assignee?.firstName ?: ""
                 holder.taskName.text = current.task.toString()
                 holder.photo.background = ContextCompat.getDrawable(context, current.task?.getBG() ?: R.drawable.shape_circle)
                 holder.container.visibility = View.VISIBLE
+
 
                 //replace with profile photo of assignee
                     if(holder.firstName.text.equals("Example")) {
@@ -96,6 +100,7 @@ class SlotListAdapter internal constructor(private val context: Context, private
                 holder.day.visibility = View.VISIBLE
                 holder.date.visibility = View.VISIBLE
             }
+
             holder.day.text = next.day.toString()
             holder.date.text = context.getString(R.string.display_date, next.date.monthValue.toString(), next.date.dayOfMonth.toString())
         }

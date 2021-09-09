@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="club.gardentotable.meals.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_slotFragment"
+            app:destination="@id/slotFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_newMemberSignupDialogFragment"
+            app:destination="@id/newMemberSignupDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/slotFragment"
+        android:name="club.gardentotable.meals.SlotFragment"
+        android:label="SlotFragment" >
+        <action
+            android:id="@+id/action_slotFragment2_to_slotOverviewFragment"
+            app:destination="@id/slotOverviewFragment" />
+        <action
+            android:id="@+id/action_slotFragment_to_slotDetailDialogFragment"
+            app:destination="@id/slotDetailDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/slotOverviewFragment"
+        android:name="club.gardentotable.meals.SlotOverviewFragment"
+        android:label="SlotOverviewFragment" >
+        <action
+            android:id="@+id/action_slotOverviewFragment_to_slotDetailDialogFragment"
+            app:destination="@id/slotDetailDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/newMemberSignupDialogFragment"
+        android:name="club.gardentotable.meals.ui.NewMemberSignupDialogFragment"
+        android:label="NewMemberSignupDialogFragment" />
+    <fragment
+        android:id="@+id/slotDetailDialogFragment"
+        android:name="club.gardentotable.meals.ui.SlotDetailDialogFragment"
+        android:label="SlotDetailDialogFragment" />
+</navigation>

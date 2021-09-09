@@ -57,10 +57,10 @@ class JobCompletion @JvmOverloads  constructor(
     private fun defineColors() {
          colors = when(monthlySlots) {
              0 -> listOf(grey, grey, grey, grey)
-             1 -> listOf(grey, grey, lightBlue, grey)
-             2 -> listOf(grey, grey, lightBlue, green)
-             3 -> listOf(pink, grey, lightBlue, green)
-             4 -> listOf(pink, orange,lightBlue,green)
+             1 -> listOf(grey, grey, grey, lightBlue)
+             2 -> listOf(green, grey, grey, lightBlue)
+             3 -> listOf(green, pink, grey, lightBlue)
+             4 -> listOf(green, pink,orange,lightBlue)
              else -> listOf(pink, orange,lightBlue,green)
 
          }

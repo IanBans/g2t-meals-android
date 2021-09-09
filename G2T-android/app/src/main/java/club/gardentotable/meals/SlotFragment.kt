@@ -1,7 +1,6 @@
 package club.gardentotable.meals
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,15 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.databinding.FragmentSlotListBinding
 import club.gardentotable.meals.db.Slot
 import club.gardentotable.meals.ui.*
+
 
 const val GRID_SPAN : Int = 6
 class SlotFragment : Fragment() {
@@ -33,7 +34,7 @@ class SlotFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+
 
     }
 
@@ -46,6 +47,7 @@ class SlotFragment : Fragment() {
         _binding = FragmentSlotListBinding.inflate(inflater, container, false)
         recyclerView = binding.recyclerview
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,8 +55,10 @@ class SlotFragment : Fragment() {
 
 
         val adapter = SlotListAdapter(requireContext()) { clickedSlot: Slot ->
-            slotClicked(clickedSlot)
+            onSlotClicked(clickedSlot)
         }
+
+        
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), GRID_SPAN)
         slotViewModel.allSlots.observe(viewLifecycleOwner, { slots ->
@@ -67,11 +71,11 @@ class SlotFragment : Fragment() {
         slotViewModel.drop(slot)
         dialog.dismiss()
     }
-    private fun slotClicked(slot : Slot) {
+    private fun onSlotClicked(slot : Slot) {
         if (slot.assignee == null) {
             slotViewModel.signup(slot)
         } else {
-            SlotDetailDialogFragment(slot, slotViewModel).show(parentFragmentManager, "detail")
+           findNavController().navigate(R.id.slotOverviewFragment)
 
         }
     }

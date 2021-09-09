@@ -5,4 +5,12 @@
     <dimen name="task_bg_size">80dp</dimen>
     <dimen name="rounding_size">20dp</dimen>
     <dimen name="next_task_size">85dp</dimen>
+    <dimen name="slot_item_text">15sp</dimen>
+    <dimen name="slot_item_size">35dp</dimen>
+    <dimen name="job_completion_tracker_top">100dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
 </resources>
