@@ -19,10 +19,8 @@ import java.time.LocalDate
 class SlotOverviewFragment : Fragment() {
     private var _binding : FragmentSlotOverviewBinding? = null
     val binding get() = _binding!!
-    private val slotViewModel: SlotViewModel by activityViewModels{
-        SlotViewModelFactory((requireActivity().application as SignupApplication).repository) }
-    private val memberViewModel: MemberViewModel by activityViewModels {
-        MemberViewModelFactory(((requireActivity().application as SignupApplication).repository)) }
+    private val slotViewModel: SlotViewModel by activityViewModels()
+    private val memberViewModel: MemberViewModel by activityViewModels()
     private lateinit var overviewButtons : List<Button>
     private lateinit var slotTitles : List<TextView>
 

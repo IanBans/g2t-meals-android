@@ -12,22 +12,24 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import club.gardentotable.meals.databinding.FragmentSlotListBinding
 import club.gardentotable.meals.db.Slot
 import club.gardentotable.meals.ui.*
+import dagger.hilt.android.AndroidEntryPoint
 
 
 const val GRID_SPAN : Int = 6
+@AndroidEntryPoint
 class SlotFragment : Fragment() {
 
     private var _binding: FragmentSlotListBinding? = null
     private val newMemberActivityRequestCode = 1
 
-    private val slotViewModel: SlotViewModel by activityViewModels{
-        SlotViewModelFactory((requireActivity().application as SignupApplication).repository) }
+    private val slotViewModel: SlotViewModel by viewModels()
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
 
@@ -61,9 +63,11 @@ class SlotFragment : Fragment() {
         
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), GRID_SPAN)
-        slotViewModel.allSlots.observe(viewLifecycleOwner, { slots ->
-            slots?.let { adapter.setSlots(it, GRID_SPAN) }
-        })
+        recyclerView.addItemDecoration(SlotItemDecoration(AppCompatResources.getDrawable(requireContext(), R.drawable.slot_divider)!!))
+
+        slotViewModel.allSlots.observe(viewLifecycleOwner) { slots ->
+            slots?.let { adapter.setSlots(slots, GRID_SPAN) }
+        }
 
     }
 

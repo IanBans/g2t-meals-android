@@ -32,8 +32,8 @@ interface MemberDAO {
      fun getMatchingLastname(name: String): Member
 
     @Query("DELETE FROM member_table")
-     suspend fun deleteAll()
+     suspend fun deleteAll(): Int
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-     suspend fun insert(member: Member)
+     suspend fun insert(member: Member) : Long
 }

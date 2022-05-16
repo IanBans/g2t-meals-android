@@ -11,10 +11,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.util.*
+import javax.inject.Inject
 
-class SharedRepository(private val memberDAO: MemberDAO, private val slotDAO: SlotDAO) {
+class SharedRepository @Inject constructor(private val memberDAO: MemberDAO, private val slotDAO: SlotDAO) {
 
-    private val moshi = Moshi.Builder().add(LocalDateAdapter()).add(Date::class.java, Rfc3339DateJsonAdapter()).add(KotlinJsonAdapterFactory()).build()
+    private val moshi = Moshi.Builder().add(LocalDateAdapter())
+                        .add(Date::class.java, Rfc3339DateJsonAdapter())
+                        .add(KotlinJsonAdapterFactory()).build()
     private val memberList = Types.newParameterizedType(List::class.java, Member::class.java)
     private val slotList = Types.newParameterizedType(List::class.java, Slot::class.java)
     private val memberListAdapter : JsonAdapter<List<Member>> = moshi.adapter(memberList)
@@ -49,6 +52,73 @@ class SharedRepository(private val memberDAO: MemberDAO, private val slotDAO: Sl
             Member(null,first, last, phone, email, null, Prefs(prefDays, prefTasks))
         )
 
+
+    }
+
+    suspend fun addToDB() {
+        slotDAO.deleteAll()
+
+        insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 5, 29), Tasks.INVENTORY, null))
+        insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 5, 29), Tasks.MOP, null))
+        insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 5, 29), Tasks.SHOP1, null))
+        insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 5, 29), Tasks.SHOP2, null))
+
+        insertSlot(Slot(null, Days.SATURDAY, LocalDate.of(2020, 5,30),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.SATURDAY, LocalDate.of(2020, 5,30),Tasks.BANANA, null))
+        insertSlot(Slot(null, Days.SATURDAY, LocalDate.of(2020, 5,30),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.SATURDAY, LocalDate.of(2020, 5,30),Tasks.CLEANUP, null))
+
+        insertSlot(Slot(null, Days.MONDAY, LocalDate.of(2020, 6,1),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.MONDAY, LocalDate.of(2020, 6,1),Tasks.BANANA, null))
+        insertSlot(Slot(null, Days.MONDAY, LocalDate.of(2020, 6,1),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.MONDAY, LocalDate.of(2020, 6,1),Tasks.CLEANUP, null))
+
+
+        insertSlot(Slot(null, Days.TUESDAY, LocalDate.of(2020, 6,2),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.TUESDAY, LocalDate.of(2020, 6,2),Tasks.BANANA, null))
+        insertSlot(Slot(null, Days.TUESDAY, LocalDate.of(2020, 6,2),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.TUESDAY, LocalDate.of(2020, 6,2),Tasks.CLEANUP, null))
+
+        insertSlot(Slot(null, Days.WEDNESDAY, LocalDate.of(2020, 6,3),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.WEDNESDAY, LocalDate.of(2020, 6,3),Tasks.CLEANUP, null))
+        insertSlot(Slot(null, Days.WEDNESDAY, LocalDate.of(2020, 6,3),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.WEDNESDAY, LocalDate.of(2020, 6,3),Tasks.BANANA, null))
+
+        insertSlot(Slot(null, Days.THURSDAY, LocalDate.of(2020, 6,4),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.THURSDAY, LocalDate.of(2020, 6,4),Tasks.BANANA, null))
+        insertSlot(Slot(null, Days.THURSDAY, LocalDate.of(2020, 6,4),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.THURSDAY, LocalDate.of(2020, 6,4),Tasks.CLEANUP, null))
+
+        insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 6, 5), Tasks.INVENTORY, null))
+        insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 6, 5), Tasks.MOP, null))
+        insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 6, 5), Tasks.SHOP1, null))
+        insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 6, 5), Tasks.SHOP2, null))
+
+        insertSlot(Slot(null, Days.SATURDAY, LocalDate.of(2020, 6,6),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.SATURDAY, LocalDate.of(2020, 6,6),Tasks.BANANA, null))
+        insertSlot(Slot(null, Days.SATURDAY, LocalDate.of(2020, 6,6),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.SATURDAY, LocalDate.of(2020, 6,6),Tasks.CLEANUP, null))
+
+        insertSlot(Slot(null, Days.MONDAY, LocalDate.of(2020, 6,8),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.MONDAY, LocalDate.of(2020, 6,8),Tasks.BANANA, null))
+        insertSlot(Slot(null, Days.MONDAY, LocalDate.of(2020, 6,8),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.MONDAY, LocalDate.of(2020, 6,8),Tasks.CLEANUP, null))
+
+
+        insertSlot(Slot(null, Days.TUESDAY, LocalDate.of(2020, 6,9),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.TUESDAY, LocalDate.of(2020, 6,9),Tasks.BANANA, null))
+        insertSlot(Slot(null, Days.TUESDAY, LocalDate.of(2020, 6,9),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.TUESDAY, LocalDate.of(2020, 6,9),Tasks.CLEANUP, null))
+
+        insertSlot(Slot(null, Days.WEDNESDAY, LocalDate.of(2020, 6,10),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.WEDNESDAY, LocalDate.of(2020, 6,10),Tasks.CLEANUP, null))
+        insertSlot(Slot(null, Days.WEDNESDAY, LocalDate.of(2020, 6,10),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.WEDNESDAY, LocalDate.of(2020, 6,10),Tasks.BANANA, null))
+
+        insertSlot(Slot(null, Days.THURSDAY, LocalDate.of(2020, 6,11),Tasks.LEAD, null))
+        insertSlot(Slot(null, Days.THURSDAY, LocalDate.of(2020, 6,11),Tasks.BANANA, null))
+        insertSlot(Slot(null, Days.THURSDAY, LocalDate.of(2020, 6,11),Tasks.SETUP, null))
+        insertSlot(Slot(null, Days.THURSDAY, LocalDate.of(2020, 6,11),Tasks.CLEANUP, null))
 
     }
 

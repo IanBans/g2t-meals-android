@@ -3,6 +3,13 @@ package club.gardentotable.meals.db
 
 
 enum class Days {
+
+    SATURDAY {
+        override fun toString(): String { return "Sat" }
+    },
+    WEEKLY {
+        override fun toString(): String { return "Week" }
+},
     MONDAY {
         override fun toString(): String { return "Mon" }
     }, TUESDAY{
@@ -10,18 +17,6 @@ enum class Days {
     }, WEDNESDAY {
         override fun toString(): String { return "Wed" }
     }, THURSDAY {
-        override fun toString(): String {
-            return "Thurs"
-        }
-    }, SATURDAY {
-        override fun toString(): String {
-            return "Sat"
-        }
-    }, WEEKLY {
-        override fun toString(): String {
-            return "Week"
-        }
+        override fun toString(): String { return "Thurs" }
     }
-
-
 }

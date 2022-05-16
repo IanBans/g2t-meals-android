@@ -5,10 +5,13 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
 import club.gardentotable.meals.db.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class SlotViewModel(private val repository: SharedRepository): ViewModel(){
+@HiltViewModel
+class SlotViewModel @Inject constructor(private val repository: SharedRepository): ViewModel(){
 
 
         val allSlots : LiveData<List<Slot>> = runBlocking { getAllSlotsByDate().asLiveData() }
@@ -62,14 +65,3 @@ class SlotViewModel(private val repository: SharedRepository): ViewModel(){
     }
 
     }
-
-class SlotViewModelFactory constructor(private val repository: SharedRepository): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(SlotViewModel::class.java)) {
-            SlotViewModel(this.repository) as T
-        } else {
-            throw IllegalArgumentException("SlotViewModel Not Found")
-        }
-
-    }
-}

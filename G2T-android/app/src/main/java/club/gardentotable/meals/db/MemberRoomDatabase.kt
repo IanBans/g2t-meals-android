@@ -103,6 +103,5 @@ abstract class MemberRoomDatabase : RoomDatabase() {
             }
         }
 
-
     }
 }

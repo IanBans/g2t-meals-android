@@ -10,12 +10,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import club.gardentotable.meals.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 
 private lateinit var binding : ActivityMainBinding
 
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration

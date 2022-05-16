@@ -2,18 +2,18 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'dagger.hilt.android.plugin'
 
 
 
 
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 32
     defaultConfig {
         applicationId "club.gardentotable.meals"
         minSdkVersion 26
-        targetSdkVersion 30
+        targetSdkVersion 32
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -29,10 +29,12 @@ android {
             applicationIdSuffix ".debug"
         }
     }
-
     packagingOptions {
-        exclude 'META-INF/atomicfu.kotlin_module'
+        resources {
+            excludes += ['META-INF/atomicfu.kotlin_module']
+        }
     }
+
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
@@ -47,21 +49,26 @@ android {
     }
 }
 
+configurations {
+    all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation "androidx.fragment:fragment-ktx:1.3.6"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation "com.google.android.material:material:$rootProject.materialVersion"
+
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
@@ -81,7 +88,7 @@ dependencies {
     // Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
-    implementation 'androidx.activity:activity-ktx:1.3.1'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
 
     // UI
     implementation "com.google.android.material:material:$rootProject.materialVersion"
@@ -101,6 +108,11 @@ dependencies {
     implementation "com.amazonaws:aws-android-sdk-ddb-document:$rootProject.awsVersion"
     implementation 'com.amplifyframework:aws-auth-cognito:1.0.0'
     implementation 'com.amplifyframework:core:1.0.0'
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
 
 
 

@@ -11,3 +11,14 @@ import java.time.LocalDate
 data class Slot(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "taskID") val slotID: Int? = null,
                 @ColumnInfo(name ="day")val day: Days?, @ColumnInfo(name="date") val date: LocalDate,
                 @ColumnInfo(name = "task")val task: Tasks?, @ColumnInfo(name = "assignee") val assignee: Member? = null)
+
+
+class OrderByWeekday : Comparator<Slot> {
+    override fun compare(o1: Slot?, o2: Slot?): Int {
+        return if (o1!!.day!!.ordinal < o2!!.day!!.ordinal) {
+            1
+        } else
+            0
+    }
+}
+

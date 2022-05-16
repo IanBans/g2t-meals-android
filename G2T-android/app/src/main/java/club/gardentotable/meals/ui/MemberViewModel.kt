@@ -7,10 +7,13 @@ import club.gardentotable.meals.db.Member
 import club.gardentotable.meals.db.SharedRepository
 import club.gardentotable.meals.db.MemberRoomDatabase
 import club.gardentotable.meals.db.Slot
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class MemberViewModel(private val repository: SharedRepository): ViewModel() {
+@HiltViewModel
+class MemberViewModel @Inject constructor(private val repository: SharedRepository): ViewModel() {
 
 
     val currentUserSlots : LiveData<List<Slot>> =  runBlocking {  getCurrentUserSlots().asLiveData() }
@@ -47,13 +50,3 @@ class MemberViewModel(private val repository: SharedRepository): ViewModel() {
     }
 }
 
-class MemberViewModelFactory constructor(private val repository: SharedRepository): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(MemberViewModel::class.java)) {
-           MemberViewModel(this.repository) as T
-        } else {
-            throw IllegalArgumentException("MemberViewModel Not Found")
-        }
-
-    }
-}

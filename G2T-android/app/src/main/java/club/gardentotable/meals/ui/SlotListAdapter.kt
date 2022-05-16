@@ -117,7 +117,7 @@ class SlotListAdapter internal constructor(private val context: Context, private
     *  if the days do not match, skips to the next line of the gridsize by moving up size - (index % size) positions
     */
      private fun padList(slots : List<Slot>, gridSize: Int): List<Slot> {
-        val gridList : Array<Slot> = Array(gridSize*6) {Slot(null, null, LocalDate.MAX, null, null) }
+        val gridList : Array<Slot> = Array(gridSize*15) {Slot(null, null, LocalDate.MAX, null, null) }
         var gridIndex = 1
         for(i in (0..slots.size-2)) {
 
