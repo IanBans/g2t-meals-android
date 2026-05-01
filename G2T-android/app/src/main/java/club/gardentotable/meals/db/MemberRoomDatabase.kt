@@ -46,7 +46,7 @@ abstract class MemberRoomDatabase : RoomDatabase() {
             RoomDatabase.Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
-                INSTANCE?.let { database ->
+                INSTANCE?.let { database  : MemberRoomDatabase ->
                     scope.launch {
                         populateMembers(database.memberDAO())
                         populateSlots(database.slotDAO(), database.memberDAO())

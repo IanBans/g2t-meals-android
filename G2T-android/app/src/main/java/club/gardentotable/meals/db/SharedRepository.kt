@@ -2,7 +2,6 @@ package club.gardentotable.meals.db
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.squareup.moshi.*
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -55,7 +54,7 @@ class SharedRepository @Inject constructor(private val memberDAO: MemberDAO, pri
 
     }
 
-    suspend fun addToDB() {
+    suspend fun addDummyData() {
         slotDAO.deleteAll()
 
         insertSlot(Slot(null, Days.WEEKLY, LocalDate.of(2020, 5, 29), Tasks.INVENTORY, null))

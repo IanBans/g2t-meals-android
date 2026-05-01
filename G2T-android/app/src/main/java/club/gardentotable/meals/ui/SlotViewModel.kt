@@ -1,7 +1,5 @@
 package club.gardentotable.meals.ui
 
-import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
 import club.gardentotable.meals.db.*
@@ -28,7 +26,7 @@ class SlotViewModel @Inject constructor(private val repository: SharedRepository
         }
 
     fun addToDB() = viewModelScope.launch {
-            repository.addToDB()
+            repository.addDummyData()
 
     }
 

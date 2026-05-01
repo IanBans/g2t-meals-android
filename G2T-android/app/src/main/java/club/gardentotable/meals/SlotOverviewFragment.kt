@@ -57,8 +57,8 @@ class SlotOverviewFragment : Fragment() {
         //only update UI if the monthly slots is not empty
         binding.filledSlots = "0/4"
         overviewButtons.forEach {
-            it.setOnClickListener  { parentFragmentManager.commit {
-            this.replace<SlotFragment>(R.id.fragmentContainerView)
+            it.setOnClickListener  { childFragmentManager.commit {
+            this.replace<SlotFragment>(R.id.slot_overview)
             this.addToBackStack("slotsView")
         }}
             it.text = requireContext().getText(R.string.default_overview_text)
@@ -81,7 +81,7 @@ class SlotOverviewFragment : Fragment() {
                     Log.i("COUNT", i.toString())
 
                     overviewButtons[i].setOnClickListener{
-                        SlotDetailDialogFragment(currentSlot, slotViewModel).show(parentFragmentManager, "detail")
+                        SlotDetailDialogFragment(currentSlot, slotViewModel).show(childFragmentManager, "detail")
                     }
                 }
 

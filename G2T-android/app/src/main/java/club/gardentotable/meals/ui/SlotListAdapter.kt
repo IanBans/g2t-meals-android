@@ -106,7 +106,6 @@ class SlotListAdapter internal constructor(private val context: Context, private
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     internal fun setSlots(slots : List<Slot>, gridSize: Int) {
         this.slots = padList(slots, gridSize)
         notifyDataSetChanged()

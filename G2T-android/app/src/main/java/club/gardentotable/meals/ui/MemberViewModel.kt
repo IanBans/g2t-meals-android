@@ -24,7 +24,7 @@ class MemberViewModel @Inject constructor(private val repository: SharedReposito
         return@withContext repository.getCurrentUser()
 
     }
-   private suspend fun getCurrentUserSlots(): Flow<List<Slot>> = withContext(Dispatchers.IO) {
+   private fun getCurrentUserSlots(): Flow<List<Slot>> = withContext(Dispatchers.IO) {
 
        return@withContext repository.getCurrentSlotsAssigned()
     }
